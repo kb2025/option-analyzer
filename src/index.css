@@ -11,3 +11,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.scroll {
+  min-height: 80vh;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
