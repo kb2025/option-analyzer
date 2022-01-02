@@ -2,6 +2,7 @@
   "name": "options-analyzer",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://nickforneris.github.io/options-analyzer",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
@@ -12,7 +13,6 @@
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
     "web-vitals": "^2.1.2",
-    "homepage": "http://nickforneris.github.io/options-analyzer"
   },
   "scripts": {
     "predeploy": "npm run build",
