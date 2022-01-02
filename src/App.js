@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { DropdownButton, Dropdown, Nav, Navbar, Form, FormControl } from 'react-bootstrap';
 import StrikeTables from './Components/StrikeTables';
+import { GetData } from './Data/DataFetch';
+
 
 export const TickerContext = React.createContext(null);
 export const ExpMonthContext = React.createContext(null);
@@ -49,6 +51,7 @@ const App = () => {
                 {/*Expiration by month choices*/}
                 {months.map((month) => 
                 <Dropdown.Item
+                  key={month}
                   id="expMonth"
                   eventKey={month}
                 >
@@ -59,7 +62,7 @@ const App = () => {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-       <StrikeTables />
+        <StrikeTables/>
       </TickerContext.Provider>
       </ExpMonthContext.Provider>
     </>

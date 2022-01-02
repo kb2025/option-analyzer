@@ -1,7 +1,15 @@
+import React from 'react';
 import { useState, useEffect } from 'react'
+import { ExpMonthContext, TickerContext } from '../App';
 const KEY = process.env.REACT_APP_API_KEY;
 
-export const GetData = (ticker, expMonth) => {
+export const DataContext = React.createContext(null);
+export const StrikeDatesContext = React.createContext(null);
+
+export const GetData = () => {
+
+    const ticker = React.useContext(TickerContext)
+    const expMonth = React.useContext(ExpMonthContext)
 
     const year = new Date().getFullYear()
     const month = new Date(`${expMonth}-1-01`).toLocaleDateString(`en`, { month: `2-digit` })
@@ -23,5 +31,20 @@ export const GetData = (ticker, expMonth) => {
         fetchData()
     }, [ticker, expMonth])
 
-    return  { data }
+    console.log(data)
+
+    const [strikeDates, setStrikeDates] = useState([])
+
+    for (let date in data.putExpDateMap) {
+        strikeDates.push(date)
+    }
+
+    setStrikeDates(strikeDates)
+
+    return  (
+    <>
+    <DataContext.Provider value={data}/>
+    <StrikeDatesContext.Provider value={strikeDates}/>
+    </>
+    )
 }
