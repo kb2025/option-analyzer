@@ -1,8 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { DropdownButton, Dropdown, Nav, Navbar, Form, FormControl } from 'react-bootstrap';
-import StrikeTables from './Components/StrikeTables';
-import  GetData from './Data/DataFetch';
-
+import Cards from './Components/Cards';
 
 export const TickerContext = React.createContext(null);
 export const ExpMonthContext = React.createContext(null);
@@ -11,10 +9,13 @@ const App = () => {
   const tickerInput = useRef();
   const [ticker, setTicker] = useState(null)
   const [expMonth, setExpMonth] = useState('CHOOSE EXP MONTH')
+
+  /* Set ticker and expiration month after expiration month is chosen*/
   const handleChange = (event) => {
     setExpMonth(event)
     setTicker(tickerInput.current.value.toUpperCase())
   }
+  
   const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
 
   return (
@@ -22,9 +23,9 @@ const App = () => {
     <ExpMonthContext.Provider value={expMonth}>
       <TickerContext.Provider value={ticker}>
         <Navbar expand="lg" bg="dark" variant="dark" sticky="top">
-          <Navbar.Brand href="#home">
+          {/*<Navbar.Brand href="#home">
             <img src={process.env.PUBLIC_URL + '/OptionsOptimizer.png'} width='150' />
-          </Navbar.Brand>
+          </Navbar.Brand>*/}
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className='ml-0'>
@@ -62,7 +63,10 @@ const App = () => {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        <StrikeTables/>
+
+        {/* Display Cards */}
+      <Cards/>
+
       </TickerContext.Provider>
       </ExpMonthContext.Provider>
     </>
