@@ -6,7 +6,7 @@ const KEY = process.env.REACT_APP_API_KEY;
 export const DataContext = React.createContext(null);
 export const StrikeDatesContext = React.createContext(null);
 
-export const GetData = () => {
+const GetData = () => {
 
     const ticker = React.useContext(TickerContext)
     const expMonth = React.useContext(ExpMonthContext)
@@ -48,3 +48,5 @@ export const GetData = () => {
     </>
     )
 }
+
+export default GetData

@@ -1,9 +1,6 @@
 import React from 'react'
-import { DataContext, GetData } from '../Data/DataFetch'
-import { TickerContext, ExpMonthContext } from '../App'
 
 const StrikeTables = () => {
-
     return (
         <>
             <div className="row">

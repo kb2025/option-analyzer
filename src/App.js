@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { DropdownButton, Dropdown, Nav, Navbar, Form, FormControl } from 'react-bootstrap';
 import StrikeTables from './Components/StrikeTables';
-import { GetData } from './Data/DataFetch';
+import  GetData from './Data/DataFetch';
 
 
 export const TickerContext = React.createContext(null);
@@ -9,7 +9,7 @@ export const ExpMonthContext = React.createContext(null);
 
 const App = () => {
   const tickerInput = useRef();
-  const [ticker, setTicker] = useState('')
+  const [ticker, setTicker] = useState(null)
   const [expMonth, setExpMonth] = useState('CHOOSE EXP MONTH')
   const handleChange = (event) => {
     setExpMonth(event)
