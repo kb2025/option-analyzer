@@ -1,12 +1,8 @@
 import React from 'react'
-import { GetData } from '../Data/DataFetch'
-import { TickerContext } from '../App'
-import { ExpMonthContext } from '../App'
+import { TransformData } from '../Data/TransformData'
 
 const StrikeTables = () => {
-    const ticker = React.useContext(TickerContext)
-    const expMonth = React.useContext(ExpMonthContext)
-    const data = GetData(ticker, expMonth)
+    const strikeDates = TransformData().strikeDates
 
     return (
         <>
@@ -52,7 +48,7 @@ const StrikeTables = () => {
 
                             <pre>
                                 <code>
-                                    {JSON.stringify(data, undefined, 2)}
+                                    {JSON.stringify(strikeDates, undefined, 2)}
                                 </code>
                             </pre>
 
