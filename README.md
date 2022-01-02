@@ -1,3 +1,1 @@
-# Options Analyzer
-
-[Example](https://nickforneris.github.io/options-analyzer/).
+# [Options Analyzer](https://nickforneris.github.io/options-analyzer/)
