@@ -1,8 +1,6 @@
 import React from 'react'
-import TransformData from '../Data/TransformData'
 
 const Cards = () => {
-    const data = TransformData().data
 
     return (
         <>
@@ -47,7 +45,7 @@ const Cards = () => {
                         <div className="scroll">
                             <pre>
                                 <code>
-                                    {JSON.stringify(data, undefined, 2)}
+                                  'DATA WILL GO HERE FOR TESTING' {/*} {JSON.stringify(, undefined, 2)} */}
                                 </code>
                             </pre>
                         </div>
