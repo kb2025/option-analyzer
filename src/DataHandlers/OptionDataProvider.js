@@ -7,7 +7,7 @@ const OptionDataProvider = ({ children }) => {
     const [optionData, setOptionData] = useState([null])
 
     return (
-        <OptionDataContext.Provider value={optionData, setOptionData}>{children}</OptionDataContext.Provider>
+        <OptionDataContext.Provider value={[optionData, setOptionData]}>{children}</OptionDataContext.Provider>
     )
 }
 

@@ -1,9 +1,10 @@
-import { useOptionData } from "./OptionDataProvider";
-
 import { useEffect } from 'react'
+import { useOptionData } from "./OptionDataProvider";
 const KEY = process.env.REACT_APP_API_KEY;
 
-const GetData = (ticker, expMonth) => {
+const UseGetData = (ticker, expMonth) => {
+
+    const [ optionData, setOptionData ] = useOptionData()
 
     /* API call using ticker and expMonth */
     const year = new Date().getFullYear()
@@ -18,6 +19,7 @@ const GetData = (ticker, expMonth) => {
             .then((response) => response.json())
             .then((data) => {
                 console.log('FETCHED OPTION DATA: ', data)
+                setOptionData(data)
             })
     }
 
@@ -27,4 +29,4 @@ const GetData = (ticker, expMonth) => {
     }, [ticker, expMonth])
 }
 
-export default GetData
+export default UseGetData

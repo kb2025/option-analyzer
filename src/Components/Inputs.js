@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { DropdownButton, Dropdown, Form, FormControl } from 'react-bootstrap';
-import GetData from '../Data/GetData'
+import UseGetData from '../DataHandlers/GetData'
+import useTransformData from '../DataHandlers/TransformData';
 
 const TickerExpInputs = () => {
 
@@ -8,14 +9,22 @@ const TickerExpInputs = () => {
     const [ticker, setTicker] = useState(null)
     const [expMonth, setExpMonth] = useState('CHOOSE EXP MONTH')
     const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
-        
-    GetData(ticker, expMonth)
 
+    const { currentPrice } = useTransformData()
+     
+    UseGetData(ticker, expMonth)
 
     /* Set ticker and expiration month after expiration month is chosen*/
     const handleChange = (event) => {
         setExpMonth(event)
         setTicker(tickerInput.current.value.toUpperCase())
+    }
+
+    const tickerCheck = () => {
+    if (ticker !== null) {
+        return (
+        <div className='text-white text-center'><strong>Current Price</strong><br></br>${currentPrice}</div>
+        )}
     }
 
     return (
@@ -32,6 +41,7 @@ const TickerExpInputs = () => {
                     required
                 />
             </Form>
+            {tickerCheck()}
             {/*Dropdown values used for EXP date selection - sets state*/}
             <DropdownButton
                 className="m-2"
