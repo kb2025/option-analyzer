@@ -1,23 +1,27 @@
 import { useOptionData } from "../DataHandlers/OptionDataProvider";
 
-const useTransformData = () => {
+const useTransformData = (radioValue) => {
 
-    const [ optionData ] = useOptionData()
+    const { optionData } = useOptionData()
+
+    console.log(optionData)
+
     const putMap = optionData.putExpDateMap
     const callMap = optionData.callExpDateMap
 
     const currentPrice = optionData.underlyingPrice
 
+    let selectedDate = null
     const dates = []
     const daysToExpire = []
     
-    const putStrikes = [];
-    const putMark = [];
-    const putDelta = [];
+    const putStrikes = []
+    const putMark = []
+    const putDelta = []
 
-    const callStrikes = [];
-    const callMark = [];
-    const callDelta = [];
+    const callStrikes = []
+    const callMark = []
+    const callDelta = []
 
 //get the expiration dates and put strikes
 for (let date in putMap) {
@@ -48,7 +52,16 @@ for (let date in putMap) {
     }
   }
 
-    return { currentPrice, dates, daysToExpire, putStrikes, putMark, putDelta, callStrikes, callMark, callDelta  }
+  const uniqueDates = [...new Set(dates)]
+
+  if (radioValue) {
+    selectedDate = uniqueDates.indexOf(radioValue)
+    console.log(selectedDate)
+  } else {
+    selectedDate = null
+  }
+
+    return { selectedDate, currentPrice, uniqueDates, daysToExpire, putStrikes, putMark, putDelta, callStrikes, callMark, callDelta  }
 }
 
 export default useTransformData
