@@ -4,22 +4,21 @@ import useTransformData from '../DataHandlers/TransformData';
 
 const Cards = () => {
 
-    const [optionData] = useOptionData()
-    const { dates, daysToExpire, putStrikes, putMark, putDelta, callStrikes, callMark, callDelta } = useTransformData()
-
+    const { optionData } = useOptionData()
+    const { selectedDate, uniqueDates, putStrikes, putMark, putDelta, callStrikes, callMark, callDelta } = useTransformData()
 
     return (
         <div className="row">
             <div className="col ml-2 mt-2">
-                <div className="card rounded scroll">
-                    <div className="card-header bg-dark text-white text-center">
+            <div className="card-header bg-dark text-white text-center rounded">
                         PUTS
                     </div>
-                    {dates.map((date, i) => {
+                <div className="card rounded scroll">
+                    {uniqueDates.map((date, i) => {
                         if (date.split(":")[1] > 0) {
                             return (
                                 <>
-                                    <div className="card-header bg-dark text-white text-center">
+                                    <div key={date} className="card-header bg-dark text-white text-center">
                                         {date.replace(":", ` | Days Until Expiration `)}
                                     </div>
                                     <ul className="list-group list-group-flush text-center">
@@ -38,15 +37,15 @@ const Cards = () => {
             </div>
 
             <div className="col ml-2 mt-2">
-                <div className="card rounded scroll">
-                    <div className="card-header bg-dark text-white text-center">
+            <div className="card-header bg-dark text-white text-center rounded">
                         CALLS
                     </div>
-                    {dates.map((date, i) => {
+                <div className="card rounded scroll">
+                    {uniqueDates.map((date, i) => {
                         if (date.split(":")[1] > 0) {
                             return (
                                 <>
-                                    <div className="card-header bg-dark text-white text-center">
+                                    <div key={date} className="card-header bg-dark text-white text-center">
                                         {date.replace(":", ` | Days Until Expiration `)}
                                     </div>
                                     <ul className="list-group list-group-flush text-center">
@@ -66,10 +65,10 @@ const Cards = () => {
 
 
             <div className="col mr-2 mt-2">
-                <div className="card rounded scroll">
-                    <div className="card-header bg-dark text-white text-center">
+            <div className="card-header bg-dark text-white text-center">
                         RESULTS
                     </div>
+                <div className="card rounded scroll">
                     {/* Returning JSON data for now */}
                     <div>
                         <pre>
