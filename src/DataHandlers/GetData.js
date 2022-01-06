@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
-import { useOptionData } from "./OptionDataProvider";
-import useTransformData from './TransformData';
+import { useOptionData } from "../Providers/OptionDataProvider";
 const KEY = process.env.REACT_APP_API_KEY;
 
 const UseGetData = (ticker, expMonth) => {

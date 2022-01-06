@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { OptionDataProvider } from './DataHandlers/OptionDataProvider'
+import { OptionDataProvider } from './Providers/OptionDataProvider'
 import { SelectedDateProvider } from './Providers/SelectedDateProvider'
 import reportWebVitals from './reportWebVitals';
 
