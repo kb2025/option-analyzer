@@ -4,17 +4,25 @@ import useTransformData from '../DataHandlers/TransformData';
 
 const Cards = () => {
 
-    const { optionData } = useOptionData()
-    const { selectedDate, uniqueDates, putStrikes, putMark, putDelta, callStrikes, callMark, callDelta } = useTransformData()
+    const { 
+        optionData, 
+        expDates, 
+        callStrikes,
+        putStrikes
+    } = useTransformData()
 
-    return (
+    
+
+    
+    if (expDates) {
+     return (
         <div className="row">
             <div className="col ml-2 mt-2">
             <div className="card-header bg-dark text-white text-center rounded">
                         PUTS
                     </div>
                 <div className="card rounded scroll">
-                    {uniqueDates.map((date, i) => {
+                    {expDates.map((date, i) => {
                         if (date.split(":")[1] > 0) {
                             return (
                                 <>
@@ -22,7 +30,7 @@ const Cards = () => {
                                         {date.replace(":", ` | Days Until Expiration `)}
                                     </div>
                                     <ul className="list-group list-group-flush text-center">
-                                        {putStrikes[i]?.map((putStrike) => {
+                                        {putStrikes?.map((putStrike) => {
                                             return (
                                                 <li key={putStrike} className="list-group-item">${putStrike}</li>
                                             )
@@ -41,7 +49,7 @@ const Cards = () => {
                         CALLS
                     </div>
                 <div className="card rounded scroll">
-                    {uniqueDates.map((date, i) => {
+                    {expDates.map((date, i) => {
                         if (date.split(":")[1] > 0) {
                             return (
                                 <>
@@ -49,7 +57,7 @@ const Cards = () => {
                                         {date.replace(":", ` | Days Until Expiration `)}
                                     </div>
                                     <ul className="list-group list-group-flush text-center">
-                                        {callStrikes[i]?.map((callStrike) => {
+                                        {callStrikes?.map((callStrike) => {
                                             return (
                                                 <li key={callStrike} className="list-group-item">${callStrike}</li>
                                             )
@@ -69,7 +77,7 @@ const Cards = () => {
                         RESULTS
                     </div>
                 <div className="card rounded scroll">
-                    {/* Returning JSON data for now */}
+                    {/* Returning JSON data for now*/ }
                     <div>
                         <pre>
                             <code>
@@ -81,7 +89,7 @@ const Cards = () => {
             </div>
         </div>
     )
-
+                } else {return null}
 }
 
 export default Cards

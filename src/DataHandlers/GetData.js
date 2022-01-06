@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useOptionData } from "./OptionDataProvider";
+import useTransformData from './TransformData';
 const KEY = process.env.REACT_APP_API_KEY;
 
 const UseGetData = (ticker, expMonth) => {
@@ -13,20 +14,22 @@ const UseGetData = (ticker, expMonth) => {
 
     let request = `https://api.tdameritrade.com/v1/marketdata/chains?apikey=${KEY}&symbol=${ticker}&fromDate=${year}-${month}-01&toDate=${year}-${month}-${day}`;    
 
-    console.log('API CALL: ', request)
+    /*console.log('API CALL: ', request)*/
 
     const fetchData = () => {
         fetch(request)
             .then((response) => response.json())
             .then((data) => {
-                console.log('FETCHED OPTION DATA: ', data)
+                /*console.log('FETCHED OPTION DATA: ', data)*/
                 setOptionData(data)
             })
     }
 
     /* Fetch data and set data state on expMonth change */
     useEffect(() => {
+        if (ticker) {
         fetchData()
+        }
     }, [expMonth])
 }
 

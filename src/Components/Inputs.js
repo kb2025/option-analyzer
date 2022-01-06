@@ -5,13 +5,17 @@ import useTransformData from '../DataHandlers/TransformData';
 
 const TickerExpInputs = () => {
     const [radioValue, setRadioValue] = useState(null);
-    const { currentPrice, uniqueDates } = useTransformData(radioValue)
+   /* const { currentPrice, uniqueDates } = useTransformData(radioValue) */
+
+    useTransformData()
+    
     const tickerInput = useRef();
+
     const [ticker, setTicker] = useState(null)
     const [expMonth, setExpMonth] = useState('CHOOSE EXP MONTH')
 
     const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
-     
+
     UseGetData(ticker, expMonth, radioValue)
 
     /* Set ticker and expiration month after expiration month is chosen*/
@@ -21,10 +25,12 @@ const TickerExpInputs = () => {
     }
 
     const tickerCheck = () => {
-    if (ticker !== null) {
+    /*if (ticker) {
         return (
-        <div className='text-white text-center ml-2 mr-2'><strong>Current Price</strong><br></br>${currentPrice.toFixed(2)}</div>
-        )}
+        <div className='text-white text-center ml-2 mr-2'><strong>Current Price</strong><br></br>${currentPrice}</div>
+        )} else {
+        <div className='text-white text-center ml-2 mr-2'><strong>Enter Ticker Symbol</strong></div>
+        }*/
     }
 
     return (
@@ -41,7 +47,9 @@ const TickerExpInputs = () => {
                     required
                 />
             </Form>
+            
             {tickerCheck()}
+
             {/*Dropdown values used for EXP date selection - sets state*/}
             <DropdownButton
                 className="m-2"
@@ -61,7 +69,8 @@ const TickerExpInputs = () => {
                     </Dropdown.Item>
                 )}
             </DropdownButton>
-            <ButtonGroup className="m-2">
+                    
+         {/*}   <ButtonGroup className="m-2">
           {uniqueDates.map((radio, id) => (
             <ToggleButton
               key={id}
@@ -76,7 +85,7 @@ const TickerExpInputs = () => {
               {radio}
             </ToggleButton>
           ))}
-        </ButtonGroup>
+        </ButtonGroup>*/}
             
         </>
     );
