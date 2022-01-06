@@ -22,3 +22,7 @@ code {
 ::-webkit-scrollbar {
   display: none;
 }
+
+input[type=radio] {
+  opacity: 0;
+}
