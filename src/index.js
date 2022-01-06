@@ -3,12 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { OptionDataProvider } from './DataHandlers/OptionDataProvider'
+import { SelectedDateProvider } from './Providers/SelectedDateProvider'
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
     <OptionDataProvider>
+      <SelectedDateProvider>
     <App />
+    </SelectedDateProvider>
     </OptionDataProvider>
   </React.StrictMode>,
   document.getElementById('root')
