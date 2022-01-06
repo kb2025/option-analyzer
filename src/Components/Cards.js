@@ -1,8 +1,12 @@
 import React from 'react'
-import { useOptionData } from "../DataHandlers/OptionDataProvider";
+import { CallBuyButton, CallSellButton }from "./CallButtons";
+import { PutBuyButton, PutSellButton } from "./PutButtons";
 import useTransformData from '../DataHandlers/TransformData';
+import { useSelectedDate } from '../Providers/SelectedDateProvider'
 
 const Cards = () => {
+
+    const { selectedDate } = useSelectedDate()
 
     const { 
         optionData, 
@@ -11,11 +15,9 @@ const Cards = () => {
         putStrikes
     } = useTransformData()
 
-    
-
-    
     if (expDates) {
      return (
+        <div className='mr-3 ml-3'>
         <div className="row">
             <div className="col ml-2 mt-2">
             <div className="card-header bg-dark text-white text-center rounded">
@@ -23,18 +25,23 @@ const Cards = () => {
                     </div>
                 <div className="card rounded scroll">
                     {expDates.map((date, i) => {
-                        if (date.split(":")[1] > 0) {
+                        if ((date.split(":")[1] > 0) && (date == selectedDate)) {
                             return (
                                 <>
-                                    <div key={date} className="card-header bg-dark text-white text-center">
+                                    <div key={date} className="card-header bg-dark text-white text-center w-100">
                                         {date.replace(":", ` | Days Until Expiration `)}
                                     </div>
                                     <ul className="list-group list-group-flush text-center">
-                                        {putStrikes?.map((putStrike) => {
-                                            return (
-                                                <li key={putStrike} className="list-group-item">${putStrike}</li>
+                                        {Object.keys(putStrikes[i])?.map((putStrike) => {
+                                            return ( 
+                                                <li key={putStrike} className="list-group-item">
+                                                    <PutBuyButton/>
+                                                    ${parseFloat(putStrike).toFixed(2)}
+                                                    <PutSellButton/>
+                                                    </li>
                                             )
-                                        })}
+                                        })
+                                    }
                                     </ul>
                                 </>
                             )
@@ -50,18 +57,23 @@ const Cards = () => {
                     </div>
                 <div className="card rounded scroll">
                     {expDates.map((date, i) => {
-                        if (date.split(":")[1] > 0) {
+                        if ((date.split(":")[1] > 0) && (date == selectedDate)) {
                             return (
                                 <>
-                                    <div key={date} className="card-header bg-dark text-white text-center">
+                                    <div key={date} className="card-header bg-dark text-white text-center w-100">
                                         {date.replace(":", ` | Days Until Expiration `)}
                                     </div>
                                     <ul className="list-group list-group-flush text-center">
-                                        {callStrikes?.map((callStrike) => {
+                                        {Object.keys(callStrikes[i])?.map((callStrike) => {
                                             return (
-                                                <li key={callStrike} className="list-group-item">${callStrike}</li>
+                                                    <li key={callStrike} className="list-group-item">
+                                                    <CallSellButton/>
+                                                    ${parseFloat(callStrike).toFixed(2)}
+                                                    <CallBuyButton/>
+                                                    </li>
                                             )
-                                        })}
+                                        })
+                                        }
                                     </ul>
                                 </>
                             )
@@ -88,8 +100,9 @@ const Cards = () => {
                 </div>
             </div>
         </div>
+        </div>
     )
-                } else {return null}
+} else {return null}
 }
 
 export default Cards
