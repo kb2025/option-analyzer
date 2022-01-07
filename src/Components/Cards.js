@@ -1,108 +1,105 @@
 import React from 'react'
-import { CallBuyButton, CallSellButton }from "./CallButtons";
-import { PutBuyButton, PutSellButton } from "./PutButtons";
-import useTransformData from '../DataHandlers/TransformData';
+import Button from './Button'
+import useTransformData from '../DataHandlers/TransformData'
 import { useSelectedDate } from '../Providers/SelectedDateProvider'
 
 const Cards = () => {
 
     const { selectedDate } = useSelectedDate()
 
-    const { 
-        optionData, 
-        expDates, 
+    const {
+        optionData,
+        expDates,
         callStrikes,
         putStrikes
     } = useTransformData()
 
+
     if (expDates) {
-     return (
-        <div className='mr-3 ml-3'>
-        <div className="row">
-            <div className="col ml-2 mt-2">
-            <div className="card-header bg-dark text-white text-center rounded">
-                        PUTS
-                    </div>
-                <div className="card rounded scroll">
-                    {expDates.map((date, i) => {
-                        if ((date.split(":")[1] > 0) && (date == selectedDate)) {
-                            return (
-                                <>
-                                    <div key={date} className="card-header bg-dark text-white text-center w-100">
-                                        {date.replace(":", ` | Days Until Expiration `)}
-                                    </div>
-                                    <ul className="list-group list-group-flush text-center">
-                                        {Object.keys(putStrikes[i])?.map((putStrike) => {
-                                            return ( 
-                                                <li key={putStrike} className="list-group-item">
-                                                    <PutBuyButton/>
+        return (
+            expDates.map((date, i) => {
+                if (date == selectedDate) {
+                    return (
+                        <div id="table" className="table-responsive m-0 p-0">
+                            <table className="table table-sm table-striped table-dark m-0 p-0">
+                                <thead>
+                                    <tr>
+                                        <th colSpan="9" className="text-center">
+                                            {date.replace(":", ` | Days Until Expiration `)}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th colSpan="4" className="text-center bg-danger">
+                                            PUT
+                                        </th>
+                                        <th className="text-center">
+                                            CURRENT PRICE
+                                        </th>
+                                        <th colSpan="4" className="text-center bg-success">
+                                            CALL
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th className="text-center">+/-</th>
+                                        <th className="text-center">OPEN INTEREST</th>
+                                        <th className="text-center">DELTA</th>
+                                        <th className="text-center">MARK</th>
+                                        <th className="text-center">STRIKE</th>
+                                        <th className="text-center">MARK</th>
+                                        <th className="text-center">DELTA</th>
+                                        <th className="text-center">OPEN INTEREST</th>
+                                        <th className="text-center">+/-</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {Object.keys(putStrikes[i])?.map((putStrike) => {
+                                        return (
+                                            <tr key={putStrike}>
+                                                <td className="text-center">
+                                                    <Button variant="success" size={"sm"} margin={'m-1'} >+</Button>
+                                                    <Button variant="danger" size={"sm"} margin={'m-1'} >-</Button>
+                                                </td>
+                                                <td className="text-center">
+                                                    OPEN INTEREST
+                                            </td>
+                                                <td className="text-center">
+                                                    DELTA VALUE
+                                            </td>
+                                                <td className="text-center">
+                                                    MARK VALUE
+                                            </td>
+                                                <td className="text-center">
                                                     ${parseFloat(putStrike).toFixed(2)}
-                                                    <PutSellButton/>
-                                                    </li>
-                                            )
-                                        })
+                                                </td>
+                                                <td className="text-center">
+                                                    MARK VALUE
+                                            </td>
+                                                <td className="text-center">
+                                                    DELTA
+                                            </td>
+                                                <td className="text-center">
+                                                    OPEN INTEREST
+                                            </td>
+                                                <td className="text-center">
+                                                    <Button variant="success" size={"sm"} margin={'m-1'} >+</Button>
+                                                    <Button variant="danger" size={"sm"} margin={'m-1'} >-</Button>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
                                     }
-                                    </ul>
-                                </>
-                            )
-                        }
-                    })
-                    }
-                </div>
-            </div>
-
-            <div className="col ml-2 mt-2">
-            <div className="card-header bg-dark text-white text-center rounded">
-                        CALLS
-                    </div>
-                <div className="card rounded scroll">
-                    {expDates.map((date, i) => {
-                        if ((date.split(":")[1] > 0) && (date == selectedDate)) {
-                            return (
-                                <>
-                                    <div key={date} className="card-header bg-dark text-white text-center w-100">
-                                        {date.replace(":", ` | Days Until Expiration `)}
-                                    </div>
-                                    <ul className="list-group list-group-flush text-center">
-                                        {Object.keys(callStrikes[i])?.map((callStrike) => {
-                                            return (
-                                                    <li key={callStrike} className="list-group-item">
-                                                    <CallSellButton/>
-                                                    ${parseFloat(callStrike).toFixed(2)}
-                                                    <CallBuyButton/>
-                                                    </li>
-                                            )
-                                        })
-                                        }
-                                    </ul>
-                                </>
-                            )
-                        }
-                    })
-                    }
-                </div>
-            </div>
-
-
-            <div className="col mr-2 mt-2">
-            <div className="card-header bg-dark text-white text-center">
-                        RESULTS
-                    </div>
-                <div className="card rounded scroll">
-                    {/* Returning JSON data for now*/ }
-                    <div>
-                        <pre>
-                            <code>
-                                {JSON.stringify(optionData, undefined, 2)}
-                            </code>
-                        </pre>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-    )
-} else {return null}
+                                </tbody>
+                            </table>
+                        </div>
+                    )
+                }
+            })
+        )
+    } else {
+        return (
+            <div>INPUT TICKER</div>
+        )
+    }
 }
 
 export default Cards
