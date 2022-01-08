@@ -20,7 +20,7 @@ const StrikeTable = () => {
         return (
             <div className='card scroll'>
             {expDates.map((date, i) => {
-                if (date == selectedDate && (date.split(":")[1] >= 0)) {
+                if (date == selectedDate && (date.split(":")[1] >= -1)) {
                     return (
                         <>
                         <div className='card-header bg-dark text-white text-center'>
