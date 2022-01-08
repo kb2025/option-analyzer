@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useOptionData } from "../Providers/OptionDataProvider";
 const KEY = process.env.REACT_APP_API_KEY;
 
-const UseGetData = (ticker, expMonth) => {
+const useGetData = (ticker, expMonth) => {
 
     const { setOptionData } = useOptionData()
 
@@ -26,10 +26,8 @@ const UseGetData = (ticker, expMonth) => {
 
     /* Fetch data and set data state on expMonth change */
     useEffect(() => {
-        if (ticker) {
         fetchData()
-        }
     }, [expMonth])
 }
 
-export default UseGetData
+export default useGetData

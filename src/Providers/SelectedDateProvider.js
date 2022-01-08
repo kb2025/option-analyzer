@@ -4,7 +4,7 @@ const SelectedDateContext = React.createContext()
 
 const SelectedDateProvider = ({ children }) => {
 
-    const [selectedDate, setSelectedDate] = useState([null])
+    const [selectedDate, setSelectedDate] = useState()
 
     return (
         <SelectedDateContext.Provider value={{selectedDate: selectedDate, setSelectedDate: setSelectedDate}}>{children}</SelectedDateContext.Provider>
