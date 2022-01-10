@@ -61,7 +61,7 @@ const StrikeTable = () => {
                                                     <tr key={strike}>
                                                         <td className="text-center">
                                                             <button
-                                                                className='btn-success btn-sm m-1'
+                                                                className='btn btn-success btn-sm m-1'
                                                                 value={'PUT'}
                                                                 onClick={() => setResultsData([...resultsData, {
                                                                     PUT:
@@ -73,7 +73,7 @@ const StrikeTable = () => {
                                                                 BUY
                                                             </button>
                                                             <button
-                                                                className='btn-danger btn-sm m-1'
+                                                                className='btn btn-danger btn-sm m-1'
                                                                 value={'PUT'}
                                                                 onClick={() => setResultsData([...resultsData, {
                                                                     PUT:
@@ -108,7 +108,7 @@ const StrikeTable = () => {
                                                         </td>
                                                         <td className="text-center">
                                                             <button
-                                                                className='btn-success btn-sm m-1'
+                                                                className='btn btn-success btn-sm m-1'
                                                                 onClick={() => setResultsData([...resultsData, {
                                                                     CALL:
                                                                         [
@@ -119,7 +119,7 @@ const StrikeTable = () => {
                                                                 BUY
                                                             </button>
                                                             <button
-                                                                className='btn-danger btn-sm m-1'
+                                                                className='btn btn-danger btn-sm m-1'
                                                                 onClick={() => setResultsData([...resultsData, {
                                                                     CALL:
                                                                         [
