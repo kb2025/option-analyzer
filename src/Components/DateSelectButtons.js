@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { ToggleButtonGroup, ToggleButton, Button } from 'react-bootstrap'
 import useTransformData from '../DataHandlers/useTransformData'
 import { useSelectedDate } from '../Providers/SelectedDateProvider'
@@ -15,7 +14,7 @@ const DateSelectButtons = () => {
         }
 
         return (
-            <ToggleButtonGroup type="radio" name="options" defaultValue={'0'} onChange={handleChange}>
+            <ToggleButtonGroup type="radio" name="options" onChange={handleChange}>
                 {expDates?.map((date, id) => {
                     return (
                         <ToggleButton className='btn-sm outline-light text-center p-2 rounded' variant='outline-light' key={id} id={id} value={date}>

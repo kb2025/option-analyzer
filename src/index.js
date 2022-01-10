@@ -5,13 +5,16 @@ import App from './App';
 import { OptionDataProvider } from './Providers/OptionDataProvider'
 import { SelectedDateProvider } from './Providers/SelectedDateProvider'
 import reportWebVitals from './reportWebVitals';
+import { ResultsDataProvider } from './Providers/ResultsDataProvider';
 
 ReactDOM.render(
   <React.StrictMode>
     <OptionDataProvider>
       <SelectedDateProvider>
-    <App />
-    </SelectedDateProvider>
+        <ResultsDataProvider>
+          <App />
+        </ResultsDataProvider>
+      </SelectedDateProvider>
     </OptionDataProvider>
   </React.StrictMode>,
   document.getElementById('root')

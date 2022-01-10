@@ -1,4 +1,16 @@
+import { useResultsData } from "../Providers/ResultsDataProvider"
+
+
 const ResultsCard = () => {
+    const { resultsData } = useResultsData()
+
+    const handleClick=(event)=>{
+        console.log(event)
+
+    }
+
+    console.log([resultsData])
+
     return (
         <div className="card text-white">
             <div className='card-header bg-dark text-white text-center'>
@@ -10,6 +22,48 @@ const ResultsCard = () => {
                                 <th>
                                     DISPLAY STRATEGY BASED ON BUY/SELL SELECTION
                                 </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    {resultsData.map((item) => {
+                                        console.log(item)
+                                        if (Object.keys(item) == 'CALL') {
+                                            if (item.CALL[1] < 0) {
+                                                return (
+                                                    <button 
+                                                    className='btn-success'
+                                                    value={item}
+                                                    onClick={(event)=>handleClick(event.target.value)}
+                                                    >
+                                                        CALL ${item.CALL[0]}
+                                                    </button>
+                                                )
+                                            } else if (item.CALL[1] > 0) {
+                                                return (
+                                                    <button className='btn-danger'>
+                                                        CALL ${item.CALL[0]}
+                                                    </button>
+                                                )
+                                            }
+
+                                        } else if (Object.keys(item) == 'PUT') {
+                                            if (item.PUT[1] < 0) {
+                                                return (
+                                                    <button className='btn-success'>
+                                                        PUT ${item.PUT[0]}
+                                                    </button>
+                                                )
+                                            } else if (item.PUT[1] > 0) {
+                                                return (
+                                                    <button className='btn-danger'>
+                                                        PUT ${item.PUT[0]}
+                                                    </button>
+                                                )
+                                            }
+                                        }
+                                    }
+                                    )}
+                                </td>
                             </tr>
                         </thead>
                         <tbody>
