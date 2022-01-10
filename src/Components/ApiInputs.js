@@ -7,6 +7,7 @@ const ApiInputs = () => {
 
     const [ticker, setTicker] = useState('SPY')
     const [expMonth, setExpMonth] = useState('JAN')
+
     const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
 
     useGetData(ticker, expMonth)
@@ -49,7 +50,7 @@ const ApiInputs = () => {
             </DropdownButton>   
             </Col>
             <Col className='mt-3'>
-            <DateSelectButtons />    
+            <DateSelectButtons/>    
             </Col>     
             </Row>
         </>
