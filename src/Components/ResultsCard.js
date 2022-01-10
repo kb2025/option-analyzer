@@ -1,15 +1,16 @@
+import { useEffect } from "react"
+import useGetResults from "../DataHandlers/useGetResults"
 import { useResultsData } from "../Providers/ResultsDataProvider"
 
 
 const ResultsCard = () => {
-    const { resultsData } = useResultsData()
+    const { resultsData, setResultsData } = useResultsData()
 
-    const handleClick=(event)=>{
-        console.log(event)
+    const handleClick=(id)=>{
+        setResultsData(resultsData.filter((_, index)=> index !== parseInt(id)))
+    }    
 
-    }
-
-    console.log([resultsData])
+    console.log(useGetResults())
 
     return (
         <div className="card text-white">
@@ -26,22 +27,27 @@ const ResultsCard = () => {
                             <tr>
                                 <td>
                                     {resultsData.map((item) => {
-                                        console.log(item)
                                         if (Object.keys(item) == 'CALL') {
                                             if (item.CALL[1] < 0) {
                                                 return (
                                                     <button 
-                                                    className='btn-success'
-                                                    value={item}
-                                                    onClick={(event)=>handleClick(event.target.value)}
+                                                    className='btn btn-success m-1'
+                                                    id={resultsData.indexOf(item)}
+                                                    value={item.CALL[0], item.CALL[1]}
+                                                    onClick={(event)=>handleClick(event.target.id)}
                                                     >
-                                                        CALL ${item.CALL[0]}
+                                                        CALL ${item.CALL[0]} X
                                                     </button>
                                                 )
                                             } else if (item.CALL[1] > 0) {
                                                 return (
-                                                    <button className='btn-danger'>
-                                                        CALL ${item.CALL[0]}
+                                                    <button 
+                                                    className='btn btn-danger m-1'
+                                                    id={resultsData.indexOf(item)}
+                                                    value={item.CALL[0], item.CALL[1]}
+                                                    onClick={(event)=>handleClick(event.target.id)}
+                                                    >
+                                                        CALL ${item.CALL[0]} X
                                                     </button>
                                                 )
                                             }
@@ -49,14 +55,22 @@ const ResultsCard = () => {
                                         } else if (Object.keys(item) == 'PUT') {
                                             if (item.PUT[1] < 0) {
                                                 return (
-                                                    <button className='btn-success'>
-                                                        PUT ${item.PUT[0]}
+                                                    <button 
+                                                    className='btn btn-success m-1'
+                                                    id={resultsData.indexOf(item)}
+                                                    value={item.PUT[0], item.PUT[1]}
+                                                    onClick={(event)=>handleClick(event.target.id)}>
+                                                        PUT ${item.PUT[0]} X
                                                     </button>
                                                 )
                                             } else if (item.PUT[1] > 0) {
                                                 return (
-                                                    <button className='btn-danger'>
-                                                        PUT ${item.PUT[0]}
+                                                    <button 
+                                                    className='btn btn-danger m-1'
+                                                    id={resultsData.indexOf(item)}
+                                                    value={item.PUT[0], item.PUT[1]}
+                                                    onClick={(event)=>handleClick(event.target.id)}>
+                                                        PUT ${item.PUT[0]} X
                                                     </button>
                                                 )
                                             }
