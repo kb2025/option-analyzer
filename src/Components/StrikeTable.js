@@ -19,7 +19,7 @@ const StrikeTable = () => {
     const strikes = putStrikes
 
     if (expDates) {
-        selectedDate = (selectedDate) ? selectedDate : expDates[0]
+        selectedDate = (selectedDate) ? selectedDate : expDates[expDates.length-1]
         return (
             <div className='card scroll'>
                 {expDates.map((date, i) => {
@@ -37,7 +37,7 @@ const StrikeTable = () => {
                                                     PUT
                                                 </th>
                                                 <th className="text-center">
-                                                    CURRENT PRICE:   ${underlyingPrice}
+                                                    CURRENT PRICE:   ${parseFloat(underlyingPrice).toFixed(2)}
                                                 </th>
                                                 <th colSpan="4" className="text-center bg-success">
                                                     CALL
@@ -68,6 +68,7 @@ const StrikeTable = () => {
                                                                         [
                                                                             parseFloat(strike),
                                                                             parseFloat(-putStrikes[i][strike][0].mark.toFixed(2)),
+                                                                            'BUY'
                                                                         ]
                                                                 }])}>
                                                                 BUY
@@ -80,6 +81,7 @@ const StrikeTable = () => {
                                                                         [
                                                                             parseFloat(strike),
                                                                             parseFloat(putStrikes[i][strike][0].mark.toFixed(2)),
+                                                                            'SELL'
                                                                         ]
                                                                 }])}>
                                                                 SELL
@@ -89,22 +91,22 @@ const StrikeTable = () => {
                                                             {putStrikes[i][strike][0].openInterest}
                                                         </td>
                                                         <td className="text-center">
-                                                            {putStrikes[i][strike][0].delta.toFixed(2)}
+                                                            {putStrikes[i][strike][0].delta}
                                                         </td>
                                                         <td className="text-center">
-                                                            ${putStrikes[i][strike][0].mark.toFixed(2)}
+                                                            ${putStrikes[i][strike][0].mark}
                                                         </td>
                                                         <td className="text-center">
                                                             ${parseFloat(strike).toFixed(2)}
                                                         </td>
                                                         <td className="text-center">
-                                                            ${callStrikes[i][strike][0].mark.toFixed(2)}
+                                                            ${callStrikes[i][strike][0].mark}
                                                         </td>
                                                         <td className="text-center">
-                                                            {callStrikes[i][strike][0].delta.toFixed(2)}
+                                                            {callStrikes[i][strike][0].delta}
                                                         </td>
                                                         <td className="text-center">
-                                                            {callStrikes[i][strike][0].openInterest.toFixed(2)}
+                                                            {callStrikes[i][strike][0].openInterest}
                                                         </td>
                                                         <td className="text-center">
                                                             <button
@@ -114,6 +116,7 @@ const StrikeTable = () => {
                                                                         [
                                                                             parseFloat(strike),
                                                                             parseFloat(-callStrikes[i][strike][0].mark.toFixed(2)),
+                                                                            'BUY'
                                                                         ]
                                                                 }])}>
                                                                 BUY
@@ -125,6 +128,7 @@ const StrikeTable = () => {
                                                                         [
                                                                             parseFloat(strike),
                                                                             parseFloat(callStrikes[i][strike][0].mark.toFixed(2)),
+                                                                            'SELL'
                                                                         ]
                                                                 }])}>
                                                                 SELL

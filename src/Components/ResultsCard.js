@@ -10,8 +10,6 @@ const ResultsCard = () => {
         setResultsData(resultsData.filter((_, index)=> index !== parseInt(id)))
     }    
 
-    console.log(useGetResults())
-
     return (
         <div className="card text-white">
             <div className='card-header bg-dark text-white text-center'>
@@ -28,7 +26,7 @@ const ResultsCard = () => {
                                 <td>
                                     {resultsData.map((item) => {
                                         if (Object.keys(item) == 'CALL') {
-                                            if (item.CALL[1] < 0) {
+                                            if (item.CALL[2] == 'BUY') {
                                                 return (
                                                     <button 
                                                     className='btn btn-success m-1'
@@ -39,7 +37,7 @@ const ResultsCard = () => {
                                                         CALL ${item.CALL[0]} X
                                                     </button>
                                                 )
-                                            } else if (item.CALL[1] > 0) {
+                                            } else if (item.CALL[2] == 'SELL') {
                                                 return (
                                                     <button 
                                                     className='btn btn-danger m-1'
@@ -53,7 +51,7 @@ const ResultsCard = () => {
                                             }
 
                                         } else if (Object.keys(item) == 'PUT') {
-                                            if (item.PUT[1] < 0) {
+                                            if (item.PUT[2] == 'BUY') {
                                                 return (
                                                     <button 
                                                     className='btn btn-success m-1'
@@ -63,7 +61,7 @@ const ResultsCard = () => {
                                                         PUT ${item.PUT[0]} X
                                                     </button>
                                                 )
-                                            } else if (item.PUT[1] > 0) {
+                                            } else if (item.PUT[2] == 'SELL') {
                                                 return (
                                                     <button 
                                                     className='btn btn-danger m-1'
