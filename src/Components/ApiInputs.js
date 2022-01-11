@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DropdownButton, Dropdown, Form, FormControl, Col, Row } from 'react-bootstrap';
+import { DropdownButton, Dropdown, Form, FormControl, Col, Row, Container } from 'react-bootstrap';
 import useGetData from '../DataHandlers/useGetData'
 import DateSelectButtons from './DateSelectButtons'
 
@@ -14,8 +14,9 @@ const ApiInputs = () => {
 
     return (
         <>
-        <Row>
-        <Col xs lg="5">
+        <Container fluid>
+        <Row className="justify-content-md-center">
+        <Col className='mt-2 pl-3'>
             <Form>
                 <FormControl
                     type="text"
@@ -29,7 +30,7 @@ const ApiInputs = () => {
                 />
             </Form>
             </Col>
-            <Col>
+            <Col className='mt-2'>
             {/*Dropdown values used for EXP date selection - sets state*/}
             <DropdownButton
                 variant="outline-light"
@@ -48,11 +49,12 @@ const ApiInputs = () => {
                     </Dropdown.Item>
                 )}
             </DropdownButton>   
-            </Col>
-            <Col className='mt-3'>
-            <DateSelectButtons/>    
             </Col>     
             </Row>
+            <Row className='mt-2 p-1'>
+            <DateSelectButtons/>
+            </Row>
+            </Container>
         </>
     );
 }
