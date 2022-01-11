@@ -11,25 +11,22 @@ const ResultsCard = () => {
     }    
 
     return (
-        <div className="card text-white">
-            <div className='card-header bg-dark text-white text-center'>
-                <strong>RESULTS</strong>
-                <div id="table" className="table-responsive m-0 p-0">
-                    <table className="table table-sm table-striped table-dark m-0 p-0">
+            <div className='bg-dark text-white text-center'>
+                <div id="table" className="table-responsive">
+                    <table className="table table-sm table-striped table-dark">
                         <thead>
-                            <tr>
                                 <th>
                                     DISPLAY STRATEGY BASED ON BUY/SELL SELECTION
                                 </th>
-                            </tr>
                             <tr>
                                 <td>
+                                    STRIKE SELECTIONS<br></br>
                                     {resultsData.map((item) => {
                                         if (Object.keys(item) == 'CALL') {
                                             if (item.CALL[2] == 'BUY') {
                                                 return (
                                                     <button 
-                                                    className='btn btn-success m-1'
+                                                    className='btn btn-sm btn-success m-1'
                                                     id={resultsData.indexOf(item)}
                                                     value={item.CALL[0], item.CALL[1]}
                                                     onClick={(event)=>handleClick(event.target.id)}
@@ -40,7 +37,7 @@ const ResultsCard = () => {
                                             } else if (item.CALL[2] == 'SELL') {
                                                 return (
                                                     <button 
-                                                    className='btn btn-danger m-1'
+                                                    className='btn btn-sm btn-danger m-1'
                                                     id={resultsData.indexOf(item)}
                                                     value={item.CALL[0], item.CALL[1]}
                                                     onClick={(event)=>handleClick(event.target.id)}
@@ -54,7 +51,7 @@ const ResultsCard = () => {
                                             if (item.PUT[2] == 'BUY') {
                                                 return (
                                                     <button 
-                                                    className='btn btn-success m-1'
+                                                    className='btn btn-sm btn-success m-1'
                                                     id={resultsData.indexOf(item)}
                                                     value={item.PUT[0], item.PUT[1]}
                                                     onClick={(event)=>handleClick(event.target.id)}>
@@ -64,7 +61,7 @@ const ResultsCard = () => {
                                             } else if (item.PUT[2] == 'SELL') {
                                                 return (
                                                     <button 
-                                                    className='btn btn-danger m-1'
+                                                    className='btn btn-sm btn-danger m-1'
                                                     id={resultsData.indexOf(item)}
                                                     value={item.PUT[0], item.PUT[1]}
                                                     onClick={(event)=>handleClick(event.target.id)}>
@@ -96,7 +93,7 @@ const ResultsCard = () => {
                             </tr>
                             <tr>
                                 <td>
-                                    isplay Expectancy
+                                    Display Expectancy
                                 </td>
                             </tr>
                             <tr>
@@ -108,7 +105,6 @@ const ResultsCard = () => {
                     </table>
                 </div>
             </div>
-        </div>
 
     )
 }
