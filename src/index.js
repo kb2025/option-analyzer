@@ -6,6 +6,8 @@ import { OptionDataProvider } from './Providers/OptionDataProvider'
 import { SelectedDateProvider } from './Providers/SelectedDateProvider'
 import reportWebVitals from './reportWebVitals';
 import { ResultsDataProvider } from './Providers/ResultsDataProvider';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap'
 
 ReactDOM.render(
   <React.StrictMode>
