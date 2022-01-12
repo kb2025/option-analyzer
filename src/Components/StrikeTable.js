@@ -30,35 +30,31 @@ const StrikeTable = () => {
                                     <table className="table table-sm table-striped table-dark">
                                         <thead className='header'>
                                             <tr>
-                                                <th colspan="9" className="text-center p-0">
+                                                <th colspan="5" className="text-center p-0">
                                                 Strike Selections
                                                 </th>
                                             </tr>
                                             <tr className='sticky-row'>
-                                                <th colspan="9" className="text-center p-0">
+                                                <th colspan="5" className="text-center p-0">
                                             <div className='row justify-content-center p-0'><StrikeSelections/></div>
                                                 </th>
                                             </tr>
                                             <tr className='sticky-row'>
-                                                <th  colspan="9" className="text-center p-0">
+                                                <th  colspan="5" className="text-center p-0">
                                                 {date.replace(":", ` | Days Until Expiration: `)}<br></br>
                                                 Underlying Price: ${parseFloat(underlyingPrice).toFixed(2)}    
                                                 </th>
                                             </tr>
                                             <tr className='sticky-row'>
-                                                <th colspan="4" className="text-center bg-danger p-0">PUT</th>
+                                                <th colspan="2" className="text-center bg-danger p-0">PUT</th>
                                                 <th colspan='1'></th>
-                                                <th colspan="4" className="text-center bg-success p-0">CALL</th>
+                                                <th colspan="2" className="text-center bg-success p-0">CALL</th>
                                             </tr>
                                             <tr className='sticky-row'>
                                                 <th className="text-center">+/-</th>
-                                                <th className="text-center">OI</th>
-                                                <th className="text-center">DELTA</th>
                                                 <th className="text-center">MARK</th>
                                                 <th className="text-center">STRIKE</th>
                                                 <th className="text-center">MARK</th>
-                                                <th className="text-center">DELTA</th>
-                                                <th className="text-center">OI</th>
                                                 <th className="text-center">+/-</th>
                                             </tr>
                                         </thead>
@@ -95,12 +91,6 @@ const StrikeTable = () => {
                                                             </button>
                                                         </td>
                                                         <td className="text-center">
-                                                            {putStrikes[i][strike][0].openInterest}
-                                                        </td>
-                                                        <td className="text-center">
-                                                            {parseFloat(putStrikes[i][strike][0].delta).toFixed(2)}
-                                                        </td>
-                                                        <td className="text-center">
                                                             ${putStrikes[i][strike][0].mark}
                                                         </td>
                                                         <td className="text-center">
@@ -108,12 +98,6 @@ const StrikeTable = () => {
                                                         </td>
                                                         <td className="text-center">
                                                             ${callStrikes[i][strike][0].mark}
-                                                        </td>
-                                                        <td className="text-center">
-                                                            {parseFloat(callStrikes[i][strike][0].delta).toFixed(2)}
-                                                        </td>
-                                                        <td className="text-center">
-                                                            {callStrikes[i][strike][0].openInterest}
                                                         </td>
                                                         <td className="text-center">
                                                             <button

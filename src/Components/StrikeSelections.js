@@ -20,7 +20,7 @@ const StrikeSelections = () => {
                                 value={item.CALL[0], item.CALL[1]}
                                 onClick={(event) => handleClick(event.target.id)}
                             >
-                              X LONG CALL ${item.CALL[0]}
+                              LC ${item.CALL[0]}
                             </button>
                             </div>
                         )
@@ -33,7 +33,7 @@ const StrikeSelections = () => {
                                 value={item.CALL[0], item.CALL[1]}
                                 onClick={(event) => handleClick(event.target.id)}
                             >
-                              X SHORT CALL ${item.CALL[0]}
+                              SC ${item.CALL[0]}
                             </button>
                             </div>
                         )
@@ -47,7 +47,7 @@ const StrikeSelections = () => {
                                 id={resultsData.indexOf(item)}
                                 value={item.PUT[0], item.PUT[1]}
                                 onClick={(event) => handleClick(event.target.id)}>
-                                X LONG PUT ${item.PUT[0]}
+                                LP ${item.PUT[0]}
                             </button>
                             </div>
                         )
@@ -59,7 +59,7 @@ const StrikeSelections = () => {
                                 id={resultsData.indexOf(item)}
                                 value={item.PUT[0], item.PUT[1]}
                                 onClick={(event) => handleClick(event.target.id)}>
-                                X SHORT PUT ${item.PUT[0]}
+                                SP ${item.PUT[0]}
                             </button>
                             </div>
                         )
