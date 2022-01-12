@@ -18,7 +18,7 @@ const DateSelectButtons = () => {
                 {expDates?.map((date, id) => {
                     if(date.split('-').pop().split('-').pop().split(':')[1]){
                     return (
-                        <ToggleButton className='btn-sm outline-light text-center p-2 rounded' variant='outline-light' key={id} id={id} value={date}>
+                        <ToggleButton className='btn-sm text-center m-1 p-2 rounded' variant='outline-light' key={id} id={id} value={date}>
                             <strong>
                             {date.split('-').pop().split('-').pop().split(':')[0]}
                             </strong>
