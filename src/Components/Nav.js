@@ -1,29 +1,37 @@
 import React from 'react';
-import { Nav, Navbar } from 'react-bootstrap';
-import useTransformData from '../DataHandlers/useTransformData';
+import { Nav, Navbar, Container, Offcanvas } from 'react-bootstrap';
 import ApiInputs from './ApiInputs';
+import ResultsCard from './ResultsCard';
 
 const Navigation = () => {
 
-  const { transformData } = useTransformData()
-    
-    return (
-      <>
-          <Navbar className='pl-0' expand='lg' bg="dark" variant="dark" sticky="top">
-            {/*<Navbar.Brand href="#home">
-              <img src={process.env.PUBLIC_URL + '/OptionsOptimizer.png'} width='150' />
-            </Navbar.Brand>*/}
-            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            <Navbar.Collapse id="responsive-navbar-nav">
-              <div className='row'>
-              <Nav>
-                <ApiInputs />
-              </Nav>
-              </div>
-            </Navbar.Collapse>
-          </Navbar>
-      </>
-    );
-  }
-  
-  export default Navigation
+  return (
+    <Navbar className='text-white' bg="dark" expand={false}>
+      <Container fluid>
+        <Navbar.Brand href="#" className='text-white'>OPTION ANALYZER</Navbar.Brand>
+        <Navbar.Toggle className='bg-dark border-white text-white'>TICKER SELECTION & RESULTS</Navbar.Toggle>
+        <Navbar.Offcanvas
+          className='bg-dark text-white'
+          id="offcanvasNavbar"
+          aria-labelledby="offcanvasNavbarLabel"
+          placement="end"
+
+        >
+          <Offcanvas.Header closeButton closeVariant='white'>
+            <Offcanvas.Title id="offcanvasNavbarLabel">TICKER SELECTION & RESULTS</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body className='text-white'>
+            <Nav className="justify-content-end">
+              <ApiInputs />
+              <ResultsCard />
+            </Nav>
+          </Offcanvas.Body>
+        </Navbar.Offcanvas>
+      </Container>
+    </Navbar>
+  );
+}
+
+
+
+export default Navigation
