@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DropdownButton, Dropdown, Form, FormControl, Col, Row, Container } from 'react-bootstrap';
+import { DropdownButton, Dropdown, Form, FormControl, Col, Row} from 'react-bootstrap';
 import useGetData from '../DataHandlers/useGetData'
 import DateSelectButtons from './DateSelectButtons'
 
@@ -14,7 +14,6 @@ const ApiInputs = () => {
 
     return (
         <>
-        <Container fluid>
         <Row className="justify-content-md-center">
         <Col className='mt-2 pl-3'>
             <Form>
@@ -25,7 +24,7 @@ const ApiInputs = () => {
                     placeholder="TICKER"
                     aria-label="TICKER"
                     value={ticker}
-                    onChange={(event) => setTicker(event.target.value)}
+                    onChange={(event) => setTicker(event.target.value.toUpperCase())}
                     required
                 />
             </Form>
@@ -54,7 +53,6 @@ const ApiInputs = () => {
             <Row className='mt-2 p-1'>
             <DateSelectButtons/>
             </Row>
-            </Container>
         </>
     );
 }
