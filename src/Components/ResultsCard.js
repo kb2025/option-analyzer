@@ -1,8 +1,9 @@
 import { useResultsData } from "../Providers/ResultsDataProvider"
+import useGetResults from "../DataHandlers/useGetResults.js"
 
 
 const ResultsCard = () => {
-    const { resultsData, setResultsData } = useResultsData()
+    const { resultsData, setResultsData, maxProfit } = useResultsData()
 
     return (
             <div className='bg-dark text-white text-center'>
@@ -19,6 +20,7 @@ const ResultsCard = () => {
                             <tr>
                                 <td>
                                     Display Max Profit
+                                    {maxProfit}
                                 </td>
                             </tr>
                             <tr>

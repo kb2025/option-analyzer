@@ -5,9 +5,10 @@ const ResultsDataContext = React.createContext()
 const ResultsDataProvider = ({ children }) => {
 
     const [resultsData, setResultsData] = useState([])
+    const [maxProfit, setMaxProfit] = useState()
 
     return (
-        <ResultsDataContext.Provider value={{resultsData: resultsData, setResultsData: setResultsData}}>{children}</ResultsDataContext.Provider>
+        <ResultsDataContext.Provider value={{resultsData: resultsData, setResultsData: setResultsData, maxProfit: maxProfit, setMaxProfit: setMaxProfit}}>{children}</ResultsDataContext.Provider>
     )
 }
 

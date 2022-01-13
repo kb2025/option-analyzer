@@ -1,9 +1,16 @@
 import React from 'react';
 import { Nav, Navbar, Container, Offcanvas } from 'react-bootstrap';
+import { useApiInputs } from '../Providers/ApiInputsProvider';
+import useGetData from '../DataHandlers/useGetData';
 import ApiInputs from './ApiInputs';
 import ResultsCard from './ResultsCard';
 
 const Navigation = () => {
+
+  const {ticker} = useApiInputs()
+  const {expMonth} = useApiInputs()
+
+  useGetData(ticker,expMonth)
 
   return (
     <Navbar className='text-white' bg="dark" expand={false}>
@@ -15,7 +22,6 @@ const Navigation = () => {
           id="offcanvasNavbar"
           aria-labelledby="offcanvasNavbarLabel"
           placement="end"
-
         >
           <Offcanvas.Header closeButton closeVariant='white'>
             <Offcanvas.Title id="offcanvasNavbarLabel">TICKER SELECTION & RESULTS</Offcanvas.Title>

@@ -5,7 +5,7 @@ import { useSelectedDate } from '../Providers/SelectedDateProvider'
 const DateSelectButtons = () => {
     const { expDates } = useTransformData()
 
-    const { selectedDate, setSelectedDate } = useSelectedDate()
+    const { setSelectedDate } = useSelectedDate()
 
     if (expDates) {
 

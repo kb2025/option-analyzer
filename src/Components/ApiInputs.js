@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
-import { DropdownButton, Dropdown, Form, FormControl, Col, Row} from 'react-bootstrap';
+import { DropdownButton, Dropdown, Form, FormControl, Col, Row, Button} from 'react-bootstrap';
 import useGetData from '../DataHandlers/useGetData'
-import DateSelectButtons from './DateSelectButtons'
+import { useApiInputs } from '../Providers/ApiInputsProvider';
 
 const ApiInputs = () => {
 
-    const [ticker, setTicker] = useState('SPY')
-    const [expMonth, setExpMonth] = useState('JAN')
+    const {ticker, setTicker} = useApiInputs()
+    const {expMonth, setExpMonth} = useApiInputs()
 
     const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
-
-    useGetData(ticker, expMonth)
 
     return (
         <>
@@ -47,11 +45,8 @@ const ApiInputs = () => {
                         {month}
                     </Dropdown.Item>
                 )}
-            </DropdownButton>   
+            </DropdownButton>
             </Col>     
-            </Row>
-            <Row className='mt-2 p-1'>
-            <DateSelectButtons/>
             </Row>
         </>
     );

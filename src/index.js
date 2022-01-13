@@ -8,9 +8,11 @@ import reportWebVitals from './reportWebVitals';
 import { ResultsDataProvider } from './Providers/ResultsDataProvider';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap'
+import { ApiInputsProvider } from './Providers/ApiInputsProvider';
 
 ReactDOM.render(
   <React.StrictMode>
+  <ApiInputsProvider>
     <OptionDataProvider>
       <SelectedDateProvider>
         <ResultsDataProvider>
@@ -18,6 +20,7 @@ ReactDOM.render(
         </ResultsDataProvider>
       </SelectedDateProvider>
     </OptionDataProvider>
+    </ApiInputsProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

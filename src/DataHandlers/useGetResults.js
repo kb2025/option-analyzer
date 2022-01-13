@@ -1,15 +1,15 @@
+import { useState, useEffect } from "react";
 import { useOptionData } from "../Providers/OptionDataProvider";
-
-const { useResultsData } = require("../Providers/ResultsDataProvider")
+import { useResultsData } from "../Providers/ResultsDataProvider";
 
 const useGetResults = () => {
     
-    const {resultsData} = useResultsData()
+    const { resultsData, maxProfit, setMaxProfit } = useResultsData()
     const { optionData } = useOptionData()
+    const  {underlyingPrice} = optionData
 
+    const calculateResults = () => {
     /*const maxProfitArr = (resultsData.length > 0) ? resultsData.reduce((previous, current) => previous.CALL[1] > current.CALL[1] ? previous : current) : null*/
-    
-    let {underlyingPrice} = optionData
     let profitLoss;
 
     for (let item in resultsData) {
@@ -20,9 +20,16 @@ const useGetResults = () => {
         } 
     }
    
-   return profitLoss
+    setMaxProfit(profitLoss)
+    }
 
 
+    useEffect(() => {
+        calculateResults()
+    }, [resultsData])
 }
+
+
+
 
 export default useGetResults
