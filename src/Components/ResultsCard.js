@@ -3,7 +3,8 @@ import useGetResults from "../DataHandlers/useGetResults.js"
 
 
 const ResultsCard = () => {
-    const { resultsData, setResultsData, maxProfit } = useResultsData()
+    const { resultsData, setResultsData, maxProfit, maxLoss } = useResultsData()
+    useGetResults()
 
     return (
             <div className='bg-dark text-white text-center'>
@@ -19,13 +20,13 @@ const ResultsCard = () => {
                         <tbody>
                             <tr>
                                 <td>
-                                    Display Max Profit
-                                    {maxProfit}
+                                    Max Profit: 
+                                    ${maxProfit}
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Display Max Loss
+                                    Max Loss: ${maxLoss}
                                 </td>
                             </tr>
                             <tr>
