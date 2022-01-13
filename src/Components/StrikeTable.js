@@ -73,7 +73,7 @@ const StrikeTable = () => {
                                                                 PUT:
                                                                     [
                                                                         parseFloat(strike),
-                                                                        parseFloat(-putStrikes[i][strike][0].mark.toFixed(2)),
+                                                                        parseFloat(putStrikes[i][strike][0].mark.toFixed(2)),
                                                                         'BUY'
                                                                     ]
                                                             }]) : null}>
@@ -97,7 +97,7 @@ const StrikeTable = () => {
                                                         ${putStrikes[i][strike][0].mark}
                                                     </td>
                                                     {(() => {
-                                                        if (parseFloat(strike).toFixed(2) <= underlyingPrice+.5 && parseFloat(strike).toFixed(2) >= underlyingPrice-.5)  {
+                                                        if (parseFloat(strike).toFixed(2) <= underlyingPrice+.25 && parseFloat(strike).toFixed(2) >= underlyingPrice-.25)  {
                                                             return (
                                                             <td className="text-center text-warning">
                                                                 ${parseFloat(strike).toFixed(2)}
@@ -117,11 +117,12 @@ const StrikeTable = () => {
                                                     <td className="text-center">
                                                         <button
                                                             className='btn btn-success btn-sm m-1'
+                                                            value={'CALL'}
                                                             onClick={() => (resultsData.length < 4) ? setResultsData([...resultsData, {
                                                                 CALL:
                                                                     [
                                                                         parseFloat(strike),
-                                                                        parseFloat(-callStrikes[i][strike][0].mark.toFixed(2)),
+                                                                        parseFloat(callStrikes[i][strike][0].mark.toFixed(2)),
                                                                         'BUY'
                                                                     ]
                                                             }]) : null}>
@@ -129,6 +130,7 @@ const StrikeTable = () => {
                                                         </button>
                                                         <button
                                                             className='btn btn-danger btn-sm m-1'
+                                                            value={'CALL'}
                                                             onClick={() => (resultsData.length < 4) ? setResultsData([...resultsData, {
                                                                 CALL:
                                                                     [
