@@ -15,7 +15,14 @@ const Navigation = () => {
   return (
     <Navbar className='text-white' bg="dark" expand={false}>
       <Container fluid>
-        <Navbar.Brand href="#" className='text-white'>OPTION ANALYZER</Navbar.Brand>
+      <Navbar.Brand href="#home">
+      <div className="container">
+        <div className='row'>
+          <img className='col-sm'src={process.env.PUBLIC_URL + '/OptionsAnalyzerLogo.png'} width='10'/>
+          <h5 className='col-sm mt-3 text-white'>OPTION ANALYZER</h5>
+          </div>
+          </div>
+        </Navbar.Brand>
         <Navbar.Toggle className='bg-dark border-white text-white'>TICKER SELECTION & RESULTS</Navbar.Toggle>
         <Navbar.Offcanvas
           className='bg-dark text-white'
