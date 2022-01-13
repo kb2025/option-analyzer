@@ -1,4 +1,6 @@
 import { useResultsData } from "../Providers/ResultsDataProvider"
+import useGetResults from "../DataHandlers/useGetResults"
+import { useEffect } from "react"
 
 
 const StrikeSelections = () => {
@@ -13,7 +15,7 @@ const StrikeSelections = () => {
                 if (Object.keys(item) == 'CALL') {
                     if (item.CALL[2] == 'BUY') {
                         return ( 
-                            <div className='col-auto'>
+                            <div key={resultsData.indexOf(item)} className='col-auto'>
                             <button
                                 className='btn btn-sm btn-success m-1'
                                 id={resultsData.indexOf(item)}
@@ -26,7 +28,7 @@ const StrikeSelections = () => {
                         )
                     } else if (item.CALL[2] == 'SELL') {
                         return (
-                            <div className='col-auto'>
+                            <div key={resultsData.indexOf(item)} className='col-auto'>
                             <button
                                 className='btn btn-sm btn-danger m-1'
                                 id={resultsData.indexOf(item)}
@@ -41,7 +43,7 @@ const StrikeSelections = () => {
                 } else if (Object.keys(item) == 'PUT') {
                     if (item.PUT[2] == 'BUY') {
                         return (
-                            <div className='col-auto'>
+                            <div key={resultsData.indexOf(item)} className='col-auto'>
                             <button
                                 className='btn btn-sm btn-success m-1'
                                 id={resultsData.indexOf(item)}
@@ -53,7 +55,7 @@ const StrikeSelections = () => {
                         )
                     } else if (item.PUT[2] == 'SELL') {
                         return (
-                            <div className='col-auto'>
+                            <div key={resultsData.indexOf(item)} className='col-auto'>
                             <button
                                 className='btn btn-sm btn-danger m-1'
                                 id={resultsData.indexOf(item)}
@@ -68,6 +70,8 @@ const StrikeSelections = () => {
             } 
         )
     ) 
+    useEffect()
 }
+
 
 export default StrikeSelections
