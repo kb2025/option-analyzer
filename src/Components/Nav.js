@@ -1,5 +1,5 @@
 import React from 'react';
-import { Nav, Navbar, Container, Offcanvas } from 'react-bootstrap';
+import { Nav, Navbar, Container, Offcanvas, Col } from 'react-bootstrap';
 import { useApiInputs } from '../Providers/ApiInputsProvider';
 import useGetData from '../DataHandlers/useGetData';
 import ApiInputs from './ApiInputs';
@@ -18,8 +18,12 @@ const Navigation = () => {
       <Navbar.Brand href="#home">
       <div className="container">
         <div className='row'>
-          <img className='col-sm'src={process.env.PUBLIC_URL + '/OptionsAnalyzerLogo.png'} width='10'/>
-          <h5 className='col-sm mt-3 text-white'>OPTION ANALYZER</h5>
+        <Col>
+        <img src={process.env.PUBLIC_URL + '/OptionsAnalyzerLogo.png'} width='37'/>
+        </Col>
+        <Col>
+          <h5 className='mt-2 text-white'>OPTION ANALYZER</h5>
+          </Col>
           </div>
           </div>
         </Navbar.Brand>
