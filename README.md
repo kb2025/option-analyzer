@@ -5,7 +5,7 @@
 This application utilizes the TD Ameritrade API to retrieve option chains for any stock ticker
 and allows for analysis of user chosen option strategies. 
 
-[Working Example](https://nickforneris.github.io/options-analyzer/)
+##[Hosted Example](https://nickforneris.github.io/options-analyzer/)
 
 ## How To Use
 1. Click/Touch the Select Ticker and Results Button
