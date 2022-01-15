@@ -7,9 +7,22 @@ const ResultsDataProvider = ({ children }) => {
     const [resultsData, setResultsData] = useState([])
     const [maxProfit, setMaxProfit] = useState()
     const [maxLoss, setMaxLoss] = useState()
+    const [strategy, setStrategy] = useState()
+    const [chanceProfit, setChanceProfit] = useState()
 
     return (
-        <ResultsDataContext.Provider value={{resultsData: resultsData, setResultsData: setResultsData, maxProfit: maxProfit, setMaxProfit: setMaxProfit, maxLoss: maxLoss, setMaxLoss: setMaxLoss}}>{children}</ResultsDataContext.Provider>
+        <ResultsDataContext.Provider value={{
+            resultsData: resultsData, 
+            setResultsData: setResultsData, 
+            maxProfit: maxProfit, 
+            setMaxProfit: setMaxProfit, 
+            maxLoss: maxLoss, 
+            setMaxLoss: setMaxLoss,
+            strategy: strategy,
+            setStrategy: setStrategy,
+            chanceProfit: chanceProfit,
+            setChanceProfit: setChanceProfit
+        }}>{children}</ResultsDataContext.Provider>
     )
 }
 

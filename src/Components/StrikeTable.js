@@ -45,7 +45,7 @@ const StrikeTable = () => {
                                         <tr>
                                             <th colSpan="5" className="text-center p-0">
                                                 {date.replace(":", ` | Days Until Expiration: `)}<br></br>
-                                                Underlying Price: ${parseFloat(underlyingPrice).toFixed(2)}
+                                                Underlying Price: ${parseFloat(underlyingPrice)}
                                             </th>
                                         </tr>
                                         <tr>
@@ -73,8 +73,10 @@ const StrikeTable = () => {
                                                                 PUT:
                                                                     [
                                                                         parseFloat(strike),
-                                                                        parseFloat(putStrikes[i][strike][0].mark.toFixed(2)),
-                                                                        'BUY'
+                                                                        parseFloat(putStrikes[i][strike][0].mark),
+                                                                        'BUY',
+                                                                        putStrikes[i][strike][0].daysToExpiration
+
                                                                     ]
                                                             }]) : null}>
                                                             BUY
@@ -86,8 +88,9 @@ const StrikeTable = () => {
                                                                 PUT:
                                                                     [
                                                                         parseFloat(strike),
-                                                                        parseFloat(putStrikes[i][strike][0].mark.toFixed(2)),
-                                                                        'SELL'
+                                                                        parseFloat(putStrikes[i][strike][0].mark),
+                                                                        'SELL',
+                                                                        putStrikes[i][strike][0].daysToExpiration
                                                                     ]
                                                             }]) : null}>
                                                             SELL
@@ -97,16 +100,16 @@ const StrikeTable = () => {
                                                         ${putStrikes[i][strike][0].mark}
                                                     </td>
                                                     {(() => {
-                                                        if (parseFloat(strike).toFixed(2) <= underlyingPrice+.25 && parseFloat(strike).toFixed(2) >= underlyingPrice-.25)  {
+                                                        if (parseFloat(strike) <= underlyingPrice+.25 && parseFloat(strike) >= underlyingPrice-.25)  {
                                                             return (
                                                             <td className="text-center text-warning">
-                                                                ${parseFloat(strike).toFixed(2)}
+                                                                ${parseFloat(strike)}
                                                             </td>
                                                             )
                                                         } else {
                                                             return (
                                                             <td className="text-center">
-                                                                ${parseFloat(strike).toFixed(2)}
+                                                                ${parseFloat(strike)}
                                                             </td>
                                                             )
                                                         }
@@ -122,8 +125,9 @@ const StrikeTable = () => {
                                                                 CALL:
                                                                     [
                                                                         parseFloat(strike),
-                                                                        parseFloat(callStrikes[i][strike][0].mark.toFixed(2)),
-                                                                        'BUY'
+                                                                        parseFloat(callStrikes[i][strike][0].mark),
+                                                                        'BUY',
+                                                                        putStrikes[i][strike][0].daysToExpiration
                                                                     ]
                                                             }]) : null}>
                                                             BUY
@@ -135,8 +139,9 @@ const StrikeTable = () => {
                                                                 CALL:
                                                                     [
                                                                         parseFloat(strike),
-                                                                        parseFloat(callStrikes[i][strike][0].mark.toFixed(2)),
-                                                                        'SELL'
+                                                                        parseFloat(callStrikes[i][strike][0].mark),
+                                                                        'SELL',
+                                                                        putStrikes[i][strike][0].daysToExpiration
                                                                     ]
                                                             }]) : null}>
                                                             SELL

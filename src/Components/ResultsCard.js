@@ -3,17 +3,17 @@ import useGetResults from "../DataHandlers/useGetResults.js"
 
 
 const ResultsCard = () => {
-    const { resultsData, setResultsData, maxProfit, maxLoss } = useResultsData()
+    const { resultsData, setResultsData, maxProfit, maxLoss, strategy, chanceProfit } = useResultsData()
     useGetResults()
 
     return (
-            <div className='bg-dark text-white text-center'>
+            <div className='bg-dark text-white text-left mt-5'>
                 <div id="table" className="table-responsive">
                     <table className="table table-lg table-striped table-dark">
                         <thead>
                             <tr>
-                                <th>
-                                    DISPLAY STRATEGY BASED ON BUY/SELL SELECTION
+                                <th colSpan='2' className='text-center'>
+                                    {strategy}
                                 </th>
                             </tr>
                         </thead>
@@ -21,27 +21,41 @@ const ResultsCard = () => {
                             <tr>
                                 <td>
                                     Max Profit: 
+                                </td>
+                                <td>    
                                     ${maxProfit}
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Max Loss: ${maxLoss}
+                                    Max Loss:
+                                </td>
+                                <td>
+                                ${maxLoss}
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Display Chance of Profit
+                                    Chance of Profit
+                                </td>
+                                <td>
+                                    {chanceProfit}
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Display Expectancy
+                                    Expectancy
+                                </td>
+                                <td>
+                                    Work in Progress ...
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Display Percentage of Max Profit Needed To Be Captured to Maintain Positive Expectancy
+                                Percentage of Max Profit Needed To Be Captured to Maintain Positive Expectancy
+                                </td>
+                                <td>
+                                Work in Progress ...
                                 </td>
                             </tr>
                         </tbody>

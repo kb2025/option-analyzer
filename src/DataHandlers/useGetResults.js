@@ -5,11 +5,24 @@ import { useResultsData } from "../Providers/ResultsDataProvider";
 
 const useGetResults = () => {
 
-    const { resultsData, maxProfit, setMaxProfit, maxLoss, setMaxLoss } = useResultsData()
+    const { resultsData,
+        maxProfit,
+        setMaxProfit,
+        maxLoss,
+        setMaxLoss,
+        setStrategy,
+        setChanceProfit } = useResultsData()
+
     const { optionData } = useOptionData()
+
+    const {
+        underlyingPrice,
+        volatility,
+    } = optionData
 
     const calculateResults = () => {
 
+        let daysToExp
         let strikes = []
         let highestStrike = []
         let zeroPl = []
@@ -20,18 +33,21 @@ const useGetResults = () => {
         let infiniteCheck = []
         let sumLegsPlusHighestStrike = []
         let sumLegs = []
-        let maxProfit
-        let maxLoss
+        let breakEven = []
+        let strategy
+        let chanceProfit
 
         /* Make sure there is data to calculate */
-        if (strikes && resultsData.length > 0) {
+        if (resultsData.length > 0) {
 
             /*Pull the strikes out of resultsData*/
             for (let item in resultsData) {
                 if (Object.keys(resultsData[item]) == 'CALL') {
                     strikes.push(resultsData[item].CALL[0])
+                    daysToExp = resultsData[item].CALL[3]
                 } else if (Object.keys(resultsData[item]) == 'PUT') {
                     strikes.push(resultsData[item].PUT[0])
+                    daysToExp = resultsData[item].PUT[3]
                 }
             }
 
@@ -42,9 +58,7 @@ const useGetResults = () => {
             highestStrike = Math.max(...strikes) + 1
 
 
-            /*Build arrays of p/l per leg. Also, build p/l leg for 0 strike value and a leg for the highest strike + 1*/
-
-            /*
+            /*Build arrays of p/l per leg. Also, build p/l leg for 0 strike value and a leg for the highest strike + 1
             Calls:
             - underlying price minus strike price (if the option expires in the money)
             - zero (if it doesn’t)
@@ -185,6 +199,207 @@ const useGetResults = () => {
                 setMaxLoss('INFINITE')
             } else {
                 setMaxLoss(Math.abs(Math.min(...sumLegs)).toFixed(2))
+            }
+
+            /*Check if strategy is only a long/short call/put
+            BreakEvens =
+                Long Call: Strike + cost
+                Short Call: Strike - cost
+                Long Put: Strike - cost
+                Short Put: Strike + cost
+                */
+
+            if (resultsData.length == 1) {
+
+                if (Object.keys(resultsData[0]) == 'CALL' && resultsData[0].CALL[2] == 'BUY') {
+                    breakEven.push(parseFloat(resultsData[0].CALL[0] + parseFloat(resultsData[0].CALL[1])))
+
+                } else if (Object.keys(resultsData[0]) == 'CALL' && resultsData[0].CALL[2] == 'SELL') {
+                    breakEven.push(parseFloat(resultsData[0].CALL[0] - parseFloat(resultsData[0].CALL[1])))
+
+                } else if (Object.keys(resultsData[0]) == 'PUT' && resultsData[0].PUT[2] == 'BUY') {
+                    breakEven.push(parseFloat(resultsData[0].PUT[0] - parseFloat(resultsData[0].PUT[1])))
+
+                } else if (Object.keys(resultsData[0]) == 'PUT' && resultsData[0].PUT[2] == 'SELL') {
+                    breakEven.push(parseFloat(resultsData[0].PUT[0] - parseFloat(resultsData[0].PUT[1])))
+                }
+
+            } else {
+
+                /*Find break even points */
+                /*Get profit loss values*/
+                let pl = [
+                    firstLegPl.reduce((p, n) => p + n),
+                    secondLegPl.reduce((p, n) => p + n),
+                    thirdLegPl.reduce((p, n) => p + n),
+                    fourthLegPl.reduce((p, n) => p + n)
+                ].filter((item) => (item))
+
+                /*Find the deltas between the strikes and lop off the first non-delta*/
+                let deltas = strikes.map((strike, index, strikes) => strike - (strikes[index - 1] || 0))
+                deltas.shift()
+
+                /*Loop through strikes and perform formula on each strike - push non-falsy values
+                The ratio of the break-even point’s distances from the two strikes (x1 : x2) will be exactly 
+                the same as the ratio of distances between zero and the two P/L’s (y1 : y2)
+    
+                x1 = (x1 + x2) * y1 / (y1 + y2)
+                */
+                for (let i in strikes) {
+                    let j = parseInt(i) + 1
+                    breakEven.push(strikes[i] + (deltas[i]) * (0 - pl[i]) / (pl[j] - pl[i]))
+                }
+            }
+        }
+
+        //Normal distribution function to return probability of underlying price
+        //Ending up above or below the break even price of strategy
+        //Takes breakeven and expiration dates as parameters
+        function getProbs(breakeven, expiration) {
+            let p = parseFloat(underlyingPrice);
+            let q = parseFloat(breakeven);
+            let t = parseFloat(expiration) / 365;
+            let v = parseFloat(volatility) / 100;
+
+            let vt = v * Math.sqrt(t);
+            let lnpq = Math.log(q / p);
+            let d1 = lnpq / vt;
+
+            let y =
+                Math.floor((1 / (1 + 0.2316419 * Math.abs(d1))) * 100000) / 100000;
+            let z =
+                Math.floor(0.3989423 * Math.exp(-((d1 * d1) / 2)) * 100000) /
+                100000;
+            let y5 = 1.330274 * Math.pow(y, 5);
+            let y4 = 1.821256 * Math.pow(y, 4);
+            let y3 = 1.781478 * Math.pow(y, 3);
+            let y2 = 0.356538 * Math.pow(y, 2);
+            let y1 = 0.3193815 * y;
+            let x = 1 - z * (y5 - y4 + y3 - y2 + y1);
+            x = Math.floor(x * 100000) / 100000;
+
+            if (d1 < 0) {
+                x = 1 - x;
+            }
+
+            let pabove = Math.floor(x * 1000) / 10;
+            let pbelow = Math.floor((1 - x) * 1000) / 10;
+
+            //return probabilities for underlying price ending up above or below breakeven
+            return [pabove, pbelow];
+        }
+
+        /* Give probs for strategy selection */
+        for (let item in resultsData) {
+
+            let j = parseInt(item + 1)
+
+            /* Give probs for long/short call/put*/
+            if (resultsData.length == 1) {
+
+                if (Object.keys(resultsData[item]) == 'CALL' && resultsData[item].CALL[2] == 'BUY') {
+                    for (let item in breakEven) {
+                        if (breakEven[item]) {
+                            console.log(getProbs(breakEven[item], daysToExp)[0] + '%')
+                        }
+                    }
+
+                } else if (Object.keys(resultsData[item]) == 'CALL' && resultsData[item].CALL[2] == 'SELL') {
+                    for (let item in breakEven) {
+                        if (breakEven[item]) {
+                            console.log(getProbs(breakEven[item], daysToExp)[1] + '%')
+                        }
+                    }
+
+                } else if (Object.keys(resultsData[item]) == 'PUT' && resultsData[item].PUT[2] == 'BUY') {
+                    for (let item in breakEven) {
+                        if (breakEven[item]) {
+                            console.log(getProbs(breakEven[item], daysToExp)[1] + '%')
+                        }
+                    }
+
+
+                } else if (Object.keys(resultsData[item]) == 'PUT' && resultsData[item].PUT[2] == 'SELL') {
+                    for (let item in breakEven) {
+                        if (breakEven[item]) {
+                            console.log(getProbs(breakEven[item], daysToExp)[0] + '%')
+                        }
+                    }
+                }
+            }
+
+            /* Give probs for Bull/Bear call/put spreads */
+
+            if (resultsData.length == 2) {
+
+                if (Object.keys(resultsData[item]) == 'CALL' &&
+                    resultsData[item].CALL[2] == 'BUY' &&
+                    resultsData[j].CALL[2] == 'SELL' &&
+                    resultsData[item].CALL[0] < resultsData[j].CALL[0]) {
+                    for (let item in breakEven) {
+                        if (breakEven[item]) {
+                            setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
+                            setStrategy('Bull Call Spread')
+                        }
+                    }
+                } else if (
+                    Object.keys(resultsData[item]) == 'CALL' &&
+                    resultsData[item].CALL[2] == 'SELL' &&
+                    resultsData[j].CALL[2] == 'BUY' &&
+                    resultsData[item].CALL[0] > resultsData[j].CALL[0]) {
+                    for (let item in breakEven) {
+                        if (breakEven[item]) {
+                            setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
+                            setStrategy('Bull Call Spread')
+                        }
+                    }
+                } else if (Object.keys(resultsData[item]) != 'PUT') {
+                    setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
+                    setStrategy('Bear Call Spread')
+                }
+
+                else if (Object.keys(resultsData[item]) == 'PUT' &&
+                    resultsData[item].PUT[2] == 'BUY' &&
+                    resultsData[j].PUT[2] == 'SELL' &&
+                    resultsData[item].PUT[0] < resultsData[j].PUT[0]) {
+                    for (let item in breakEven) {
+                        if (breakEven[item]) {
+                            setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
+                            setStrategy('Bull Put Spread')
+                        }
+                    }
+                } else if (
+                    Object.keys(resultsData[item]) == 'PUT' &&
+                    resultsData[item].PUT[2] == 'SELL' &&
+                    resultsData[j].PUT[2] == 'BUY' &&
+                    resultsData[item].PUT[0] > resultsData[j].PUT[0]) {
+                    for (let item in breakEven) {
+                        if (breakEven[item]) {
+                            setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
+                            setStrategy('Bull Put Spread')
+                        }
+                    }
+                } else if (Object.keys(resultsData[item]) != 'CALL') {
+                    setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
+                    setStrategy('Bear Put Spread')
+                }
+
+
+
+                break;
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
         }
     }
