@@ -285,7 +285,7 @@ const useGetResults = () => {
             let pbelow = Math.floor((1 - x) * 1000) / 10;
 
             //return probabilities for underlying price ending up above or below breakeven
-            return [pabove, pbelow];
+            return [pbelow,pabove];
         }
 
         /* Give probs for strategy selection */
@@ -299,7 +299,7 @@ const useGetResults = () => {
                 if (Object.keys(resultsData[item]) == 'CALL' && resultsData[item].CALL[2] == 'BUY') {
                     for (let item in breakEven) {
                         if (breakEven[item]) {
-                            setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
+                            setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
                             setStrategy('Long Call')
                         }
                     }
@@ -307,7 +307,7 @@ const useGetResults = () => {
                 } else if (Object.keys(resultsData[item]) == 'CALL' && resultsData[item].CALL[2] == 'SELL') {
                     for (let item in breakEven) {
                         if (breakEven[item]) {
-                            setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
+                            setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
                             setStrategy('Short Call')
                         }
                     }
@@ -315,7 +315,7 @@ const useGetResults = () => {
                 } else if (Object.keys(resultsData[item]) == 'PUT' && resultsData[item].PUT[2] == 'BUY') {
                     for (let item in breakEven) {
                         if (breakEven[item]) {
-                            setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
+                            setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
                             setStrategy('Long Put')
                         }
                     }
@@ -324,7 +324,7 @@ const useGetResults = () => {
                 } else if (Object.keys(resultsData[item]) == 'PUT' && resultsData[item].PUT[2] == 'SELL') {
                     for (let item in breakEven) {
                         if (breakEven[item]) {
-                            setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
+                            setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
                             setStrategy('Short Put')
                         }
                     }
@@ -341,7 +341,7 @@ const useGetResults = () => {
                     resultsData[item].CALL[0] < resultsData[j].CALL[0]) {
                     for (let item in breakEven) {
                         if (breakEven[item]) {
-                            setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
+                            setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
                             setStrategy('Bull Call Spread')
                         }
                     }
@@ -352,7 +352,7 @@ const useGetResults = () => {
                     resultsData[item].CALL[0] > resultsData[j].CALL[0]) {
                     for (let item in breakEven) {
                         if (breakEven[item]) {
-                            setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
+                            setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
                             setStrategy('Bull Call Spread')
                         }
                     }
@@ -367,7 +367,7 @@ const useGetResults = () => {
                     resultsData[item].PUT[0] < resultsData[j].PUT[0]) {
                     for (let item in breakEven) {
                         if (breakEven[item]) {
-                            setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
+                            setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
                             setStrategy('Bull Put Spread')
                         }
                     }
@@ -378,12 +378,12 @@ const useGetResults = () => {
                     resultsData[item].PUT[0] > resultsData[j].PUT[0]) {
                     for (let item in breakEven) {
                         if (breakEven[item]) {
-                            setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
+                            setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
                             setStrategy('Bull Put Spread')
                         }
                     }
                 } else if (Object.keys(resultsData[item]) != 'CALL') {
-                    setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
+                    setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
                     setStrategy('Bear Put Spread')
                 }
 

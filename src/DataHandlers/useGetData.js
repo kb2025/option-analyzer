@@ -4,7 +4,7 @@ import { useSelectedDate } from '../Providers/SelectedDateProvider';
 
 const KEY = process.env.REACT_APP_API_KEY;
 
-const useGetData = (ticker, expMonth, getData) => {
+const useGetData = (ticker, expMonth) => {
 
     const { setOptionData } = useOptionData()
     const { setSelectedDate } = useSelectedDate()
@@ -29,7 +29,7 @@ const useGetData = (ticker, expMonth, getData) => {
     useEffect(() => {
         fetchData()
         setSelectedDate('')
-    }, [expMonth])
+    }, [ticker, expMonth])
 }
 
 export default useGetData
