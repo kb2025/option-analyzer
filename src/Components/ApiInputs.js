@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { DropdownButton, Dropdown, Form, FormControl, Col, Row, Button} from 'react-bootstrap';
-import useGetData from '../DataHandlers/useGetData'
 import { useApiInputs } from '../Providers/ApiInputsProvider';
 
 const ApiInputs = () => {

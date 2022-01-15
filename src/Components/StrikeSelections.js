@@ -1,7 +1,4 @@
 import { useResultsData } from "../Providers/ResultsDataProvider"
-import useGetResults from "../DataHandlers/useGetResults"
-import { useEffect } from "react"
-
 
 const StrikeSelections = () => {
     const { resultsData, setResultsData } = useResultsData()
@@ -19,10 +16,10 @@ const StrikeSelections = () => {
                             <button
                                 className='btn btn-sm btn-success m-1'
                                 id={resultsData.indexOf(item)}
-                                value={item.CALL[0], item.CALL[1]}
+                                value={[item.CALL[0], item.CALL[1]]}
                                 onClick={(event) => handleClick(event.target.id)}
                             >
-                              LC ${item.CALL[0]}
+                              +${item.CALL[0]}
                             </button>
                             </div>
                         )
@@ -32,10 +29,10 @@ const StrikeSelections = () => {
                             <button
                                 className='btn btn-sm btn-success m-1'
                                 id={resultsData.indexOf(item)}
-                                value={item.CALL[0], item.CALL[1]}
+                                value={[item.CALL[0], item.CALL[1]]}
                                 onClick={(event) => handleClick(event.target.id)}
                             >
-                              SC ${item.CALL[0]}
+                              -${item.CALL[0]}
                             </button>
                             </div>
                         )
@@ -47,9 +44,9 @@ const StrikeSelections = () => {
                             <button
                                 className='btn btn-sm btn-danger m-1'
                                 id={resultsData.indexOf(item)}
-                                value={item.PUT[0], item.PUT[1]}
+                                value={[item.PUT[0], item.PUT[1]]}
                                 onClick={(event) => handleClick(event.target.id)}>
-                                LP ${item.PUT[0]}
+                                +${item.PUT[0]}
                             </button>
                             </div>
                         )
@@ -59,18 +56,17 @@ const StrikeSelections = () => {
                             <button
                                 className='btn btn-sm btn-danger m-1'
                                 id={resultsData.indexOf(item)}
-                                value={item.PUT[0], item.PUT[1]}
+                                value={[item.PUT[0], item.PUT[1]]}
                                 onClick={(event) => handleClick(event.target.id)}>
-                                SP ${item.PUT[0]}
+                                -${item.PUT[0]}
                             </button>
                             </div>
                         )
                     }
-                }
-            } 
+                } else {return null}
+            }
         )
     ) 
-    useEffect()
 }
 
 

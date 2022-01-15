@@ -27,22 +27,42 @@ code {
 
 .header {
   position: sticky;
+  z-index: 1;
   top:0;
 }
 
 .scroll {
-  height: 57em;
+  height: 45em;
   overflow-y: auto;
+}
+
+.left-head, td:first-child
+{
+  position:sticky;
+  left:0;
+  z-index: 0;
+  background-color:grey;
+}
+
+.right-head, td:last-child
+{
+  position:sticky;
+  right:0;
+  z-index: 0;
+  background-color:grey;
 }
 
 input[type=radio] {
   opacity: 0;
 }
 
+.btn-sm,
 .btn-success:focus,
 .btn-success:active,
 .btn-danger:focus,
 .btn-danger:active{
     box-shadow:none !important;
     outline:0px !important;
+    width: 4rem;
+    height: 2rem;
 }

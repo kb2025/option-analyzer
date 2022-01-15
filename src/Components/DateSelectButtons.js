@@ -1,4 +1,4 @@
-import { ToggleButtonGroup, ToggleButton, Button } from 'react-bootstrap'
+import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
 import useTransformData from '../DataHandlers/useTransformData'
 import { useSelectedDate } from '../Providers/SelectedDateProvider'
 
@@ -18,7 +18,7 @@ const DateSelectButtons = () => {
                 {expDates?.map((date, id) => {
                     if(date.split('-').pop().split('-').pop().split(':')[1]){
                     return (
-                        <ToggleButton className='btn-sm text-center m-1 p-2 rounded' variant='outline-light' key={id} id={id} value={date}>
+                        <ToggleButton className='btn-sm text-center m-1 p-1 rounded' variant='outline-light' key={id} id={id} value={date}>
                             <strong>
                             {date.split('-').pop().split('-').pop().split(':')[0]}
                             </strong>

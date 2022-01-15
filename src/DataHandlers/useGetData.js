@@ -29,7 +29,7 @@ const useGetData = (ticker, expMonth, getData) => {
     useEffect(() => {
         fetchData()
         setSelectedDate('')
-    }, [ticker, expMonth])
+    }, [expMonth])
 }
 
 export default useGetData

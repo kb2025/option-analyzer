@@ -34,7 +34,6 @@ const useGetResults = () => {
         let sumLegsPlusHighestStrike = []
         let sumLegs = []
         let breakEven = []
-        let strategy
         let chanceProfit
 
         /* Make sure there is data to calculate */
@@ -300,21 +299,24 @@ const useGetResults = () => {
                 if (Object.keys(resultsData[item]) == 'CALL' && resultsData[item].CALL[2] == 'BUY') {
                     for (let item in breakEven) {
                         if (breakEven[item]) {
-                            console.log(getProbs(breakEven[item], daysToExp)[0] + '%')
+                            setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
+                            setStrategy('Long Call')
                         }
                     }
 
                 } else if (Object.keys(resultsData[item]) == 'CALL' && resultsData[item].CALL[2] == 'SELL') {
                     for (let item in breakEven) {
                         if (breakEven[item]) {
-                            console.log(getProbs(breakEven[item], daysToExp)[1] + '%')
+                            setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
+                            setStrategy('Short Call')
                         }
                     }
 
                 } else if (Object.keys(resultsData[item]) == 'PUT' && resultsData[item].PUT[2] == 'BUY') {
                     for (let item in breakEven) {
                         if (breakEven[item]) {
-                            console.log(getProbs(breakEven[item], daysToExp)[1] + '%')
+                            setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
+                            setStrategy('Long Put')
                         }
                     }
 
@@ -322,7 +324,8 @@ const useGetResults = () => {
                 } else if (Object.keys(resultsData[item]) == 'PUT' && resultsData[item].PUT[2] == 'SELL') {
                     for (let item in breakEven) {
                         if (breakEven[item]) {
-                            console.log(getProbs(breakEven[item], daysToExp)[0] + '%')
+                            setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
+                            setStrategy('Short Put')
                         }
                     }
                 }
@@ -354,7 +357,7 @@ const useGetResults = () => {
                         }
                     }
                 } else if (Object.keys(resultsData[item]) != 'PUT') {
-                    setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
+                    setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
                     setStrategy('Bear Call Spread')
                 }
 
@@ -385,28 +388,17 @@ const useGetResults = () => {
                 }
 
 
-
                 break;
 
-
-
-
-
-
-
-
-
-
-
-
-
+            } else {
+                return 'Cannot Calculate'
             }
         }
     }
 
     useEffect(() => {
         calculateResults()
-    }, [resultsData])
+    })
 }
 
 export default useGetResults
