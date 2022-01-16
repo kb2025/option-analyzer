@@ -16,7 +16,9 @@ const StrikeTable = () => {
         underlyingPrice,
         expDates,
         callStrikes,
-        putStrikes
+        putStrikes,
+        markChange,
+        markPercentChange
     } = useTransformData()
 
     const strikes = putStrikes
@@ -29,37 +31,32 @@ const StrikeTable = () => {
                     if (date === selectedDate) {
                         return (
                             <>
-                                <div id="table" className="table-responsive">
-                                    <table className="table table-sm table-striped table-dark">
-                                        <thead>
-                                            <tr>
-                                                <th colSpan="9" className="text-center p-0">
-                                                    {ticker}: EXPIRATION DAYS <br></br>
-                                                    <DateSelectButtons />
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <th colSpan="9" className="text-center p-0">
-                                                    <div className='row justify-content-center p-0'><StrikeSelections /></div>
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <th colSpan="9" className="text-center p-0">
-                                                    {date.replace(":", ` | Days Until Expiration: `)}<br></br>
-                                                    Underlying Price: ${parseFloat(underlyingPrice).toFixed(2)}
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                                <div className="bg-dark text-white pt-3">
+                                    <div className='row justify-content-center p-0'>
+                                    SELECT EXPIRATION DAY
+                                    <div className='row justify-content-center p-0'>
+                                    {ticker} {date.replace(":", ` | Days Until Expiration: `)}
+                                    </div>
+                                    </div>
+                                    <div className='row justify-content-center p-0'>
+                                    <div className='col text-center'>
+                                    <DateSelectButtons />
+                                    </div>
+                                    </div>
+                                    <div className='row justify-content-center p-2'>
+                                    <StrikeSelections />
+                                    </div>
+                                    </div>
 
                                 <div id="table" className="table-responsive scroll">
                                     <table className="table table-sm table-striped table-dark">
                                         <thead className='header'>
                                             <tr>
-                                                <th colSpan="4" className="text-center bg-danger p-0">PUT</th>
-                                                <th className='text-center bg-white'></th>
-                                                <th colSpan="4" className="text-center bg-success p-0">CALL</th>
+                                                <th colSpan="4" className="text-center bg-danger align-middle p-0">PUT</th>
+                                                <th className='text-center text-white'>
+                                                {`${ticker} $${parseFloat(underlyingPrice).toFixed(2)}`}
+                                                </th>
+                                                <th colSpan="4" className="text-center bg-success align-middle p-0">CALL</th>
                                             </tr>
                                             <tr>
                                                 <th className="left-head text-center">+/-</th>
@@ -77,7 +74,7 @@ const StrikeTable = () => {
                                             {Object.keys(strikes[i])?.map((strike) => {
                                                 return (
                                                     <tr key={strike}>
-                                                        <td className="text-center">
+                                                        <td className="text-center align-middle">
                                                             <button
                                                                 className='btn btn-success btn-sm m-1 text-center'
                                                                 value={'PUT'}

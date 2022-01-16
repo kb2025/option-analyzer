@@ -13,7 +13,7 @@ const ResultsCard = () => {
                         <thead>
                             <tr>
                                 <th colSpan='2' className='text-center'>
-                                    {strategy}
+                                {strategy}
                                 </th>
                             </tr>
                         </thead>
@@ -23,7 +23,7 @@ const ResultsCard = () => {
                                     Max Profit: 
                                 </td>
                                 <td>    
-                                    ${maxProfit}
+                                {maxProfit}
                                 </td>
                             </tr>
                             <tr>
@@ -31,7 +31,7 @@ const ResultsCard = () => {
                                     Max Loss:
                                 </td>
                                 <td>
-                                ${maxLoss}
+                                {maxLoss}
                                 </td>
                             </tr>
                             <tr>
@@ -39,7 +39,7 @@ const ResultsCard = () => {
                                     Chance of Profit
                                 </td>
                                 <td>
-                                    {chanceProfit}
+                                {chanceProfit}
                                 </td>
                             </tr>
                             <tr>

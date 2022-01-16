@@ -11,6 +11,7 @@ const useGetResults = () => {
         maxLoss,
         setMaxLoss,
         setStrategy,
+        chanceProfit,
         setChanceProfit } = useResultsData()
 
     const { optionData } = useOptionData()
@@ -191,13 +192,13 @@ const useGetResults = () => {
             if (sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 1] > sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 2]) {
                 setMaxProfit('INFINITE')
             } else {
-                setMaxProfit(Math.abs(Math.max(...sumLegs)).toFixed(2))
+                setMaxProfit('$' + Math.abs(Math.max(...sumLegs)).toFixed(2))
             }
 
             if (sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 1] < sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 2]) {
                 setMaxLoss('INFINITE')
             } else {
-                setMaxLoss(Math.abs(Math.min(...sumLegs)).toFixed(2))
+                setMaxLoss('$' + Math.abs(Math.min(...sumLegs)).toFixed(2))
             }
 
             /*Check if strategy is only a long/short call/put
@@ -386,15 +387,14 @@ const useGetResults = () => {
                     setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
                     setStrategy('Bear Put Spread')
                 }
-
-
                 break;
-
             } else {
                 return 'Cannot Calculate'
             }
         }
     }
+
+    console.log((.01+(1-parseFloat(chanceProfit)/100))/(parseFloat(chanceProfit)/100))
 
     useEffect(() => {
         calculateResults()
