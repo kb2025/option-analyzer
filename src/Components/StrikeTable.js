@@ -31,19 +31,17 @@ const StrikeTable = () => {
                     if (date === selectedDate) {
                         return (
                             <>
-                                <div className="bg-dark text-white pt-3">
-                                    <div className='row justify-content-center p-0'>
+                                <div className="bg-dark justify-content-center text-white pt-3">
+                                    <div className='row justify-content-center text-center'>
                                     SELECT EXPIRATION DAY
-                                    <div className='row justify-content-center p-0'>
+                                    <div className='row justify-content-center text-center'>
                                     {ticker} {date.replace(":", ` | Days Until Expiration: `)}
                                     </div>
                                     </div>
-                                    <div className='row justify-content-center p-0'>
-                                    <div className='col text-center'>
+                                    <div className='row justify-content-center text-center'>
                                     <DateSelectButtons />
                                     </div>
-                                    </div>
-                                    <div className='row justify-content-center p-2'>
+                                    <div className='row justify-content-center text-center p-1'>
                                     <StrikeSelections />
                                     </div>
                                     </div>
@@ -53,7 +51,7 @@ const StrikeTable = () => {
                                         <thead className='header'>
                                             <tr>
                                                 <th colSpan="4" className="text-center bg-danger align-middle p-0">PUT</th>
-                                                <th className='text-center text-white'>
+                                                <th className='text-center border rounded text-white p-2'>
                                                 {`${ticker} $${parseFloat(underlyingPrice).toFixed(2)}`}
                                                 </th>
                                                 <th colSpan="4" className="text-center bg-success align-middle p-0">CALL</th>

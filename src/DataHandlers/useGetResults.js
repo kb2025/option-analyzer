@@ -12,7 +12,9 @@ const useGetResults = () => {
         setMaxLoss,
         setStrategy,
         chanceProfit,
-        setChanceProfit } = useResultsData()
+        setChanceProfit,
+        setExpectancy
+     } = useResultsData()
 
     const { optionData } = useOptionData()
 
@@ -56,7 +58,6 @@ const useGetResults = () => {
 
             /*Find the highest strike and add 1 for infinite checks later on*/
             highestStrike = Math.max(...strikes) + 1
-
 
             /*Build arrays of p/l per leg. Also, build p/l leg for 0 strike value and a leg for the highest strike + 1
             Calls:
@@ -182,20 +183,20 @@ const useGetResults = () => {
             infiniteCheck.reduce((p, n) => p + n)].filter((item) => (item))
 
 
-            /* Claculate Max Profit and Max Loss
+            /* Calculate Max Profit and Max Loss
             - Max Profit is the Highest value in sumLegs
                 - if highest strike is greater than second to last array value then Max Profit is infinite
             - Max Loss is the lowest value in sumLegs
                 - if highest strike is less than second to last array value then Max Profit is infinite 
             */
 
-            if (sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 1] > sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 2]) {
+            if (parseFloat(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 1]).toFixed(2) > parseFloat(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 2]).toFixed(2)) {
                 setMaxProfit('INFINITE')
             } else {
                 setMaxProfit('$' + Math.abs(Math.max(...sumLegs)).toFixed(2))
             }
 
-            if (sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 1] < sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 2]) {
+            if (parseFloat(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 1]).toFixed(2) < parseFloat(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 2]).toFixed(2)) {
                 setMaxLoss('INFINITE')
             } else {
                 setMaxLoss('$' + Math.abs(Math.min(...sumLegs)).toFixed(2))
@@ -250,7 +251,6 @@ const useGetResults = () => {
                     breakEven.push(strikes[i] + (deltas[i]) * (0 - pl[i]) / (pl[j] - pl[i]))
                 }
             }
-        }
 
         //Normal distribution function to return probability of underlying price
         //Ending up above or below the break even price of strategy
@@ -394,10 +394,24 @@ const useGetResults = () => {
         }
     }
 
-    console.log((.01+(1-parseFloat(chanceProfit)/100))/(parseFloat(chanceProfit)/100))
+}
+
+const calculateExpectancy = () => {
+    /*Calculate expectancy*/
+    if (maxLoss && chanceProfit) {
+        if((.01+(1-parseFloat(chanceProfit)/100))/(parseFloat(chanceProfit)/100)*parseFloat(maxLoss.replace(/[$,]+/g,"")) < maxProfit.replace(/[$,]+/g,"")) {
+            setExpectancy('Positive')
+        } else if ((.01+(1-parseFloat(chanceProfit)/100))/(parseFloat(chanceProfit)/100)*parseFloat(maxLoss.replace(/[$,]+/g,"")) >= maxProfit.replace(/[$,]+/g,"")) {
+            setExpectancy('Negative')
+        } else {
+            setExpectancy('Unknown')
+        }
+    }
+}
 
     useEffect(() => {
         calculateResults()
+        calculateExpectancy()            
     })
 }
 

@@ -3,7 +3,7 @@ import useGetResults from "../DataHandlers/useGetResults.js"
 
 
 const ResultsCard = () => {
-    const { resultsData, setResultsData, maxProfit, maxLoss, strategy, chanceProfit } = useResultsData()
+    const { resultsData, setResultsData, maxProfit, maxLoss, strategy, chanceProfit, expectancy } = useResultsData()
     useGetResults()
 
     return (
@@ -47,15 +47,7 @@ const ResultsCard = () => {
                                     Expectancy
                                 </td>
                                 <td>
-                                    Work in Progress ...
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                Percentage of Max Profit Needed To Be Captured to Maintain Positive Expectancy
-                                </td>
-                                <td>
-                                Work in Progress ...
+                                    {expectancy}
                                 </td>
                             </tr>
                         </tbody>
