@@ -2,7 +2,7 @@
 
 # Options Analyzer
 
-This application utilizes the TD Ameritrade API to retrieve option chains for any stock ticker
+Utilizes the TD Ameritrade API to retrieve option chains for any stock ticker
 and allows for analysis of user chosen option strategies. 
 
 ## [Hosted Example](https://nickforneris.github.io/options-analyzer/)
@@ -14,10 +14,6 @@ and allows for analysis of user chosen option strategies.
 4. Select Up to Four Legs of Strategy Utilizing the Buy/Sell Buttons 
    - (Deselect Options by Clicking/Touching Icons Under Selected Strikes Header)
 6. Once Strategy is Chosen, Click/Touch Ticker and Results Button to View Analysis
-
-## Build
-- React
-- React-Bootstrap
 
 
 
