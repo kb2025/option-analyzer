@@ -4,8 +4,7 @@ import { useApiInputs } from '../Providers/ApiInputsProvider';
 
 const ApiInputs = () => {
 
-    const {ticker, setTicker} = useApiInputs()
-    const {expMonth, setExpMonth} = useApiInputs()
+    const {ticker, setTicker, expMonth, setExpMonth, setSubmit} = useApiInputs()
 
     const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
 
@@ -22,7 +21,6 @@ const ApiInputs = () => {
                     aria-label="TICKER"
                     value={ticker}
                     onChange={(event) => setTicker(event.target.value.toUpperCase())}
-                    required
                 />
             </Form>
             </Col>
@@ -45,7 +43,10 @@ const ApiInputs = () => {
                     </Dropdown.Item>
                 )}
             </DropdownButton>
-            </Col>     
+            </Col>   
+            <Col className='mt-2'>
+                <Button variant='outline-light' onClick={()=>{setSubmit(true)}}>SUBMIT</Button>
+            </Col>  
             </Row>
         </>
     );

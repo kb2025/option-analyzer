@@ -51,7 +51,7 @@ const StrikeTable = () => {
                                         <thead className='header'>
                                             <tr>
                                                 <th colSpan="4" className="text-center bg-danger align-middle p-0">PUT</th>
-                                                <th className='text-center border rounded text-white p-2'>
+                                                <th className='text-center border text-white p-2'>
                                                 {`${ticker} $${parseFloat(underlyingPrice).toFixed(2)}`}
                                                 </th>
                                                 <th colSpan="4" className="text-center bg-success align-middle p-0">CALL</th>
@@ -107,7 +107,7 @@ const StrikeTable = () => {
                                                             {putStrikes[i][strike][0].openInterest}
                                                         </td>
                                                         <td className="text-center">
-                                                            {putStrikes[i][strike][0].delta}
+                                                            {parseFloat(putStrikes[i][strike][0].delta).toFixed(2)}
                                                         </td>
                                                         <td className="text-center">
                                                             ${putStrikes[i][strike][0].mark}
@@ -131,7 +131,7 @@ const StrikeTable = () => {
                                                             ${callStrikes[i][strike][0].mark}
                                                         </td>
                                                         <td className="text-center">
-                                                            {callStrikes[i][strike][0].delta}
+                                                            {parseFloat(callStrikes[i][strike][0].delta).toFixed(2)}
                                                         </td>
                                                         <td className="text-center">
                                                             {callStrikes[i][strike][0].openInterest}

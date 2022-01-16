@@ -1,13 +1,15 @@
 import { useEffect } from 'react'
+import { useApiInputs } from '../Providers/ApiInputsProvider';
 import { useOptionData } from "../Providers/OptionDataProvider";
 import { useSelectedDate } from '../Providers/SelectedDateProvider';
 
 const KEY = process.env.REACT_APP_API_KEY;
 
-const useGetData = (ticker, expMonth) => {
+const useGetData = () => {
 
     const { setOptionData } = useOptionData()
     const { setSelectedDate } = useSelectedDate()
+    const {ticker, expMonth, submit, setSubmit } = useApiInputs()
 
     /* API call using ticker and expMonth */
     const year = new Date().getFullYear()
@@ -29,7 +31,8 @@ const useGetData = (ticker, expMonth) => {
     useEffect(() => {
         fetchData()
         setSelectedDate('')
-    }, [ticker, expMonth])
+        setSubmit(false)
+    }, [submit])
 }
 
 export default useGetData

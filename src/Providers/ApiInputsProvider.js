@@ -1,5 +1,4 @@
-import React, {useState, setState, createContext, useContext} from 'react'
-import useGetData from '../DataHandlers/useGetData'
+import React, {useState} from 'react'
 
 const ApiInputsContext = React.createContext()
 
@@ -7,9 +6,17 @@ const ApiInputsProvider = ({ children }) => {
 
     const [ticker, setTicker] = useState('SPY')
     const [expMonth, setExpMonth] = useState('JAN')
+    const [submit, setSubmit] = useState(false)
 
     return (
-        <ApiInputsContext.Provider value={{ticker: ticker, setTicker: setTicker, expMonth: expMonth, setExpMonth: setExpMonth}}>{children}</ApiInputsContext.Provider>
+        <ApiInputsContext.Provider value={{
+            ticker: ticker, 
+            setTicker: setTicker, 
+            expMonth: expMonth, 
+            setExpMonth: setExpMonth,
+            submit: submit,
+            setSubmit: setSubmit
+            }}>{children}</ApiInputsContext.Provider>
     )
 }
 

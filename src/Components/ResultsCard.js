@@ -3,7 +3,7 @@ import useGetResults from "../DataHandlers/useGetResults.js"
 
 
 const ResultsCard = () => {
-    const { resultsData, setResultsData, maxProfit, maxLoss, strategy, chanceProfit, expectancy } = useResultsData()
+    const { maxProfit, maxLoss, strategy, chanceProfit, expectancy } = useResultsData()
     useGetResults()
 
     return (

@@ -4,13 +4,11 @@ import { useApiInputs } from '../Providers/ApiInputsProvider';
 import useGetData from '../DataHandlers/useGetData';
 import ApiInputs from './ApiInputs';
 import ResultsCard from './ResultsCard';
+import useGetResults from '../DataHandlers/useGetResults';
 
 const Navigation = () => {
 
-  const {ticker} = useApiInputs()
-  const {expMonth} = useApiInputs()
-
-  useGetData(ticker,expMonth)
+  useGetData()
 
   return (
     <Navbar className='text-white' bg="dark" expand={false}>
@@ -19,7 +17,7 @@ const Navigation = () => {
       <div className="container">
         <div className='row'>
         <Col>
-        <img src={process.env.PUBLIC_URL + '/OptionsAnalyzerLogo.png'} width='37'/>
+        <img src={process.env.PUBLIC_URL + '/OptionsAnalyzerLogo.png'} alt='logo: target with arrow in bullseye' width='37'/>
         </Col>
         <Col>
           <h5 className='mt-2 text-white'>OPTION ANALYZER</h5>
