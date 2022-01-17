@@ -1,10 +1,12 @@
 import React from 'react';
 import { DropdownButton, Dropdown, Form, FormControl, Col, Row, Button} from 'react-bootstrap';
 import { useApiInputs } from '../Providers/ApiInputsProvider';
+import {useResultsData} from '../Providers/ResultsDataProvider'
 
 const ApiInputs = () => {
 
     const {ticker, setTicker, expMonth, setExpMonth, setSubmit} = useApiInputs()
+    const { setMaxProfit, setMaxLoss, setStrategy, setChanceProfit, setExpectancy, setResultsData } = useResultsData()
 
     const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
 
@@ -45,7 +47,17 @@ const ApiInputs = () => {
             </DropdownButton>
             </Col>   
             <Col className='mt-2'>
-                <Button variant='outline-light' onClick={()=>{setSubmit(true)}}>SUBMIT</Button>
+                <Button 
+                variant='outline-light' 
+                onClick={()=>{
+                    setSubmit(true); 
+                    setResultsData([]); 
+                    setMaxProfit(); 
+                    setMaxLoss(); 
+                    setStrategy(); 
+                    setChanceProfit(); 
+                    setExpectancy()
+                    }}>SUBMIT</Button>
             </Col>  
             </Row>
         </>
