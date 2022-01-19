@@ -39,7 +39,7 @@ const StrikeTable = () => {
                                     </div>
                                     </div>
                                     <div className='row justify-content-center text-center'>
-                                    <DateSelectButtons />
+                                        <div className='day-scroll col m-2'> <DateSelectButtons /></div>
                                     </div>
                                     <div className='row justify-content-center text-center p-1'>
                                     <StrikeSelections />
