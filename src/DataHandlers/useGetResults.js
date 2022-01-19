@@ -195,13 +195,13 @@ const useGetResults = () => {
         /* Make sure there is data to calculate */
         if (resultsData.length > 0) {
 
-            if (parseFloat(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 1]).toFixed(2) > parseFloat(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 2]).toFixed(2)) {
+            if (parseFloat(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 1]) > parseFloat(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 2])) {
                 setMaxProfit('INFINITE')
             } else {
                 setMaxProfit('$' + Math.abs(Math.max(...sumLegs)).toFixed(2))
             }
 
-            if (parseFloat(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 1]).toFixed(2) < parseFloat(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 2]).toFixed(2)) {
+            if (parseFloat(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 1]) < parseFloat(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 2])) {
                 setMaxLoss('INFINITE')
             } else {
                 setMaxLoss('$' + Math.abs(Math.min(...sumLegs)).toFixed(2))
@@ -261,6 +261,7 @@ const useGetResults = () => {
                 for (let i in strikes) {
                     let j = parseInt(i) + 1
                     let breakEvenPoint = Math.abs(strikes[i] + (deltas[i]) * (0 - pl[i]) / (pl[j] - pl[i]))
+
                     if (Number(breakEvenPoint) && breakEvenPoint !== Infinity) {
                     breakEven.push(strikes[i] + (breakEvenPoint))
                     } else {
@@ -270,43 +271,6 @@ const useGetResults = () => {
                 }  
             }
         }
-    }
-
-    //Normal distribution function to return probability of underlying price
-    //Ending up above or below the break even price of strategy
-    //Takes breakeven and expiration dates as parameters
-    const getProbs = (breakeven, expiration) => {
-        let p = parseFloat(underlyingPrice);
-        let q = parseFloat(breakeven);
-        let t = parseFloat(expiration) / 365;
-        let v = parseFloat(volatility) / 100;
-
-        let vt = v * Math.sqrt(t);
-        let lnpq = Math.log(q / p);
-        let d1 = lnpq / vt;
-
-        let y =
-            Math.floor((1 / (1 + 0.2316419 * Math.abs(d1))) * 100000) / 100000;
-        let z =
-            Math.floor(0.3989423 * Math.exp(-((d1 * d1) / 2)) * 100000) /
-            100000;
-        let y5 = 1.330274 * Math.pow(y, 5);
-        let y4 = 1.821256 * Math.pow(y, 4);
-        let y3 = 1.781478 * Math.pow(y, 3);
-        let y2 = 0.356538 * Math.pow(y, 2);
-        let y1 = 0.3193815 * y;
-        let x = 1 - z * (y5 - y4 + y3 - y2 + y1);
-        x = Math.floor(x * 100000) / 100000;
-
-        if (d1 < 0) {
-            x = 1 - x;
-        }
-
-        let pabove = Math.floor(x * 1000) / 10;
-        let pbelow = Math.floor((1 - x) * 1000) / 10;
-
-        //return probabilities for underlying price ending up above or below breakeven
-        return [pbelow, pabove];
     }
 
     const calculateProbability = () => {
@@ -425,15 +389,24 @@ const useGetResults = () => {
                 }
 
 
-                 /* Give probs for straddles and strangles and guts */
+                 /* Give probs for strangles and guts */
                  if (resultsData.length === 2 && calls.length===1) {
 
-                    if (Object.keys(resultsData[item]) == 'CALL') {
+                    let allProbs = []
+                    let maxP = (Number(maxProfit.replace(/[^0-9.-]+/g,""))/100)
+                    let maxL = (Number(maxLoss.replace(/[^0-9.-]+/g,""))/100)
+
+                    if (Object.keys(resultsData[item]) == 'CALL' && calls[item].CALL[0] !== puts[item].PUT[0]) {
                         if (calls[item].CALL[0] < puts[item].PUT[0]) {
-                            for (let item in breakEven) {
-                                    setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
-                                    setStrategy('Short Guts')
-                            }
+                            let be = [calls[item].CALL[0]-maxP, puts[item].PUT[0]+maxP]
+                            console.log(be)
+                            for (let item in be) {
+                                    allProbs.push(getProbs(be[item], daysToExp)[0],getProbs(be[item], daysToExp)[1] )
+                            } 
+                            setChanceProfit(Math.abs(allProbs[2]-allProbs[0]))
+                            setStrategy('Short Guts')
+                            
+                            console.log(allProbs)
                         } else {
                             for (let item in breakEven) {
                                     setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
@@ -442,7 +415,21 @@ const useGetResults = () => {
                         } break
                     }
 
-                    if (Object.keys(resultsData[item]) == 'PUT') {
+                    if (Object.keys(resultsData[item]) == 'CALL') {
+                        if (calls[item].CALL[0] == puts[item].PUT[0] && calls[item].CALL[2] == 'SELL') {
+                            for (let item in breakEven) {
+                                    setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
+                                    setStrategy('Short Straddle')
+                            }
+                        } else {
+                            for (let item in breakEven) {
+                                    setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
+                                    setStrategy('Straddle')
+                            }
+                        } break
+                    }
+
+                    if (Object.keys(resultsData[item]) == 'PUT' && calls[item].CALL[0] !== puts[item].PUT[0]) {
                             if (puts[item].PUT[0] < calls[item].CALL[0]) {
                             for (let item in breakEven) {
                                     setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
@@ -454,7 +441,21 @@ const useGetResults = () => {
                                     setStrategy('Short Guts')
                             } 
                         } break
-                    }                    
+                    }      
+                    
+                    if (Object.keys(resultsData[item]) == 'PUT') {
+                        if (puts[item].PUT[0] == calls[item].CALL[0] && puts[item].PUT[2] == 'SELL') {
+                        for (let item in breakEven) {
+                                setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
+                                setStrategy('Short Straddle')
+                            }
+                    } else {
+                        for (let item in breakEven){
+                                setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
+                                setStrategy('Straddle')
+                        } 
+                    } break
+                }  
                 }    
 
 
@@ -463,7 +464,6 @@ const useGetResults = () => {
 
                         let strategy = []
                         let allProbs = []
-
 
                         /* Here compiling spread types for analysis later*/
                         if (calls && calls.length == 2) {
@@ -544,6 +544,43 @@ const useGetResults = () => {
                 }
             }
         }
+    }
+
+        //Normal distribution function to return probability of underlying price
+    //Ending up above or below the break even price of strategy
+    //Takes breakeven and expiration dates as parameters
+    const getProbs = (breakeven, expiration) => {
+        let p = parseFloat(underlyingPrice);
+        let q = parseFloat(breakeven);
+        let t = parseFloat(expiration) / 365;
+        let v = parseFloat(volatility) / 100;
+
+        let vt = v * Math.sqrt(t);
+        let lnpq = Math.log(q / p);
+        let d1 = lnpq / vt;
+
+        let y =
+            Math.floor((1 / (1 + 0.2316419 * Math.abs(d1))) * 100000) / 100000;
+        let z =
+            Math.floor(0.3989423 * Math.exp(-((d1 * d1) / 2)) * 100000) /
+            100000;
+        let y5 = 1.330274 * Math.pow(y, 5);
+        let y4 = 1.821256 * Math.pow(y, 4);
+        let y3 = 1.781478 * Math.pow(y, 3);
+        let y2 = 0.356538 * Math.pow(y, 2);
+        let y1 = 0.3193815 * y;
+        let x = 1 - z * (y5 - y4 + y3 - y2 + y1);
+        x = Math.floor(x * 100000) / 100000;
+
+        if (d1 < 0) {
+            x = 1 - x;
+        }
+
+        let pabove = Math.floor(x * 1000) / 10;
+        let pbelow = Math.floor((1 - x) * 1000) / 10;
+
+        //return probabilities for underlying price ending up above or below breakeven
+        return [pbelow, pabove];
     }
 
     useEffect(() => {
