@@ -392,7 +392,7 @@ const useGetResults = () => {
                  /* Give probs for strangles and guts */
                  if (resultsData.length === 2 && calls.length===1 && maxProfit && maxLoss) {
 
-                    let allProbs = []
+                    /*let allProbs = []
                     let maxP = (Number(maxProfit.replace(/[^0-9.-]+/g,""))/100)
                     let maxL = (Number(maxLoss.replace(/[^0-9.-]+/g,""))/100)
 
@@ -413,7 +413,7 @@ const useGetResults = () => {
                                     setStrategy('Short Strangle')
                             }
                         } break
-                    }
+                    } */
 
                     if (Object.keys(resultsData[item]) == 'CALL') {
                         if (calls[item].CALL[0] == puts[item].PUT[0] && calls[item].CALL[2] == 'SELL') {
