@@ -390,7 +390,7 @@ const useGetResults = () => {
 
 
                  /* Give probs for strangles and guts */
-                 if (resultsData.length === 2 && calls.length===1) {
+                 if (resultsData.length === 2 && calls.length===1 && maxProfit) {
 
                     let allProbs = []
                     let maxP = (Number(maxProfit.replace(/[^0-9.-]+/g,""))/100)
