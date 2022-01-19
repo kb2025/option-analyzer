@@ -195,13 +195,13 @@ const useGetResults = () => {
         /* Make sure there is data to calculate */
         if (resultsData.length > 0) {
 
-            if (parseFloat(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 1]) > parseFloat(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 2])) {
+            if (Math.round(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 1]*1e2)/1e2 > Math.round(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 2]*1e2)/1e2)  {
                 setMaxProfit('INFINITE')
             } else {
                 setMaxProfit('$' + Math.abs(Math.max(...sumLegs)).toFixed(2))
             }
 
-            if (parseFloat(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 1]) < parseFloat(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 2])) {
+            if (Math.round(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 1]*1e2)/1e2 < Math.round(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 2]*1e2)/1e2)  {
                 setMaxLoss('INFINITE')
             } else {
                 setMaxLoss('$' + Math.abs(Math.min(...sumLegs)).toFixed(2))
@@ -212,20 +212,16 @@ const useGetResults = () => {
     const calculateBreakEvens = () => {
 
         /*Check if strategy is only a long/short call/put
-        BreakEvens =
-            Long Call: Strike + cost
-            Short Call: Strike - cost
-            Long Put: Strike - cost
-            Short Put: Strike + cost
+        BreakEvens = Strike - cost
             */
 
         /* Make sure there is data to calculate */
         if (resultsData.length > 0) {
 
-            if (resultsData.length == 1) {
+            if (resultsData.length === 1) {
 
                 if (Object.keys(resultsData[0]) == 'CALL' && resultsData[0].CALL[2] == 'BUY') {
-                    breakEven.push(parseFloat(resultsData[0].CALL[0] + parseFloat(resultsData[0].CALL[1])))
+                    breakEven.push(parseFloat(resultsData[0].CALL[0] - parseFloat(resultsData[0].CALL[1])))
 
                 } else if (Object.keys(resultsData[0]) == 'CALL' && resultsData[0].CALL[2] == 'SELL') {
                     breakEven.push(parseFloat(resultsData[0].CALL[0] - parseFloat(resultsData[0].CALL[1])))
@@ -263,12 +259,12 @@ const useGetResults = () => {
                     let breakEvenPoint = Math.abs(strikes[i] + (deltas[i]) * (0 - pl[i]) / (pl[j] - pl[i]))
 
                     if (Number(breakEvenPoint) && breakEvenPoint !== Infinity) {
-                    breakEven.push(strikes[i] + (breakEvenPoint))
+                        breakEven.push(breakEvenPoint)
                     } else {
-                    breakEven.push(0)
-                    
+                        breakEven.push(0)
+
                     }
-                }  
+                }
             }
         }
     }
@@ -276,8 +272,8 @@ const useGetResults = () => {
     const calculateProbability = () => {
         if (resultsData.length > 0) {
 
-            let calls = resultsData.filter((item)=> {if(Object.keys(item) == 'CALL'){return item}})
-            let puts =  resultsData.filter((item)=> {if(Object.keys(item) == 'PUT'){return item}})
+            let calls = resultsData.filter((item) => { if (Object.keys(item) == 'CALL') { return item } })
+            let puts = resultsData.filter((item) => { if (Object.keys(item) == 'PUT') { return item } })
 
             /* Give probs for strategy selection */
             for (let item in resultsData) {
@@ -323,8 +319,7 @@ const useGetResults = () => {
                 }
 
                 /* Give probs for Bull/Bear Call/Put spreads */
-                if (resultsData.length === 2 && calls.length === 2 || puts.length  === 2) {
-                    console.log(1)
+                if (resultsData.length !== 4 && (calls.length === 2 || puts.length === 2)) {
 
                     if (Object.keys(resultsData[item]) == 'CALL') {
                         if (
@@ -333,7 +328,7 @@ const useGetResults = () => {
                             resultsData[item].CALL[0] < resultsData[j].CALL[0]) {
                             for (let item in breakEven) {
                                 if (breakEven[item]) {
-                                    setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
+                                    setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
                                     setStrategy('Bull Call Spread')
                                 }
                             }
@@ -343,7 +338,7 @@ const useGetResults = () => {
                             resultsData[item].CALL[0] > resultsData[j].CALL[0]) {
                             for (let item in breakEven) {
                                 if (breakEven[item]) {
-                                    setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
+                                    setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
                                     setStrategy('Bull Call Spread')
                                 }
                             }
@@ -363,7 +358,7 @@ const useGetResults = () => {
                             resultsData[item].PUT[0] < resultsData[j].PUT[0]) {
                             for (let item in breakEven) {
                                 if (breakEven[item]) {
-                                    setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
+                                    setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
                                     setStrategy('Bull Put Spread')
                                 }
                             }
@@ -373,7 +368,8 @@ const useGetResults = () => {
                             resultsData[item].PUT[0] > resultsData[j].PUT[0]) {
                             for (let item in breakEven) {
                                 if (breakEven[item]) {
-                                    setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
+                                    console.log(breakEven[item])
+                                    setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
                                     setStrategy('Bull Put Spread')
                                 }
                             }
@@ -383,153 +379,162 @@ const useGetResults = () => {
                                     setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
                                     setStrategy('Bear Put Spread')
                                 }
-                            } 
+                            }
                         } break
                     }
                 }
 
 
-                 /* Give probs for strangles and guts */
-                 if (resultsData.length === 2 && calls.length===1 && maxProfit && maxLoss) {
+                /* Give probs for guts and short guts*/
+                if (resultsData.length === 2 && calls.length === 1 && puts.length === 1) {
 
-                    /*let allProbs = []
-                    let maxP = (Number(maxProfit.replace(/[^0-9.-]+/g,""))/100)
-                    let maxL = (Number(maxLoss.replace(/[^0-9.-]+/g,""))/100)
+                    let allProbs = []
+                    let be = []
+                    let maxP
+                    let maxL
 
-                    if (Object.keys(resultsData[item]) == 'CALL' && calls[item].CALL[0] !== puts[item].PUT[0]) {
-                        if (calls[item].CALL[0] < puts[item].PUT[0]) {
-                            let be = [calls[item].CALL[0]-maxP, puts[item].PUT[0]+maxP]
-                            console.log(be)
+                    if (maxProfit) {
+                    maxP = (Number(maxProfit.replace(/[^0-9.-]+/g, "")) / 100)
+                    }
+
+                    if (maxLoss) {
+                    maxL = (Number(maxLoss.replace(/[^0-9.-]+/g, "")) / 100)
+                    }
+
+                    if (calls[item].CALL[0] !== puts[item].PUT[0] && calls[item].CALL[0] < puts[item].PUT[0] ) {
+   
+                        if (calls[item].CALL[2]=='BUY' && puts[item].PUT[2]=='BUY') {
+                            be = [calls[item].CALL[0] - maxL, puts[item].PUT[0] + maxL]
                             for (let item in be) {
-                                    allProbs.push(getProbs(be[item], daysToExp)[0],getProbs(be[item], daysToExp)[1] )
-                            } 
-                            setChanceProfit(Math.abs(allProbs[2]-allProbs[0]))
+                                allProbs.push(getProbs(be[item], daysToExp)[0], getProbs(be[item], daysToExp)[1])
+                            }
+                            setChanceProfit(allProbs.sort()[0]+allProbs.sort()[1] + '%')
+                            setStrategy('Guts')
+
+                        } else if (calls[item].CALL[2]=='SELL' && puts[item].PUT[2]=='SELL') {
+                            be = [calls[item].CALL[0] - maxP, puts[item].PUT[0] + maxP]
+                            for (let item in be) {
+                                allProbs.push(getProbs(be[item], daysToExp)[0], getProbs(be[item], daysToExp)[1])
+                            }
+                            setChanceProfit(100-(allProbs.sort()[0]+allProbs.sort()[1]) + '%')
                             setStrategy('Short Guts')
-                            
-                            console.log(allProbs)
-                        } else {
-                            for (let item in breakEven) {
-                                    setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
-                                    setStrategy('Short Strangle')
-                            }
-                        } break
-                    } */
-
-                    if (Object.keys(resultsData[item]) == 'CALL') {
-                        if (calls[item].CALL[0] == puts[item].PUT[0] && calls[item].CALL[2] == 'SELL') {
-                            for (let item in breakEven) {
-                                    setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
-                                    setStrategy('Short Straddle')
-                            }
-                        } else {
-                            for (let item in breakEven) {
-                                    setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
-                                    setStrategy('Straddle')
-                            }
                         } break
                     }
 
-                    if (Object.keys(resultsData[item]) == 'PUT' && calls[item].CALL[0] !== puts[item].PUT[0]) {
-                            if (puts[item].PUT[0] < calls[item].CALL[0]) {
-                            for (let item in breakEven) {
-                                    setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
-                                    setStrategy('Short Strangle')
-                                }
-                        } else {
-                            for (let item in breakEven){
-                                    setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
-                                    setStrategy('Short Guts')
-                            } 
+                    if (calls[item].CALL[0] !== puts[item].PUT[0] && calls[item].CALL[0] > puts[item].PUT[0]) {
+   
+                        if (calls[item].CALL[2]=='BUY' && puts[item].PUT[2]=='BUY') {
+                            be = [calls[item].CALL[0] - maxL, puts[item].PUT[0] + maxL]
+                            for (let item in be) {
+                                allProbs.push(getProbs(be[item], daysToExp)[0], getProbs(be[item], daysToExp)[1])
+                            }
+                            setChanceProfit(100-(allProbs.sort()[0]+allProbs.sort()[1]) + '%')
+                            setStrategy('Strangle')
+
+                        } else if (calls[item].CALL[2]=='SELL' && puts[item].PUT[2]=='SELL') {
+                            be = [calls[item].CALL[0] - maxP, puts[item].PUT[0] + maxP]
+                            for (let item in be) {
+                                allProbs.push(getProbs(be[item], daysToExp)[0], getProbs(be[item], daysToExp)[1])
+                            }
+                            setChanceProfit(allProbs.sort()[0]+allProbs.sort()[1] + '%')
+                            setStrategy('Short Strangle')
                         } break
-                    }      
-                    
-                    if (Object.keys(resultsData[item]) == 'PUT') {
-                        if (puts[item].PUT[0] == calls[item].CALL[0] && puts[item].PUT[2] == 'SELL') {
+                    }
+
+                    if (calls[item].CALL[0] == puts[item].PUT[0] && calls[item].CALL[0] < puts[item].PUT[0] ) {
+   
+                        if (calls[item].CALL[2]=='BUY' && puts[item].PUT[2]=='BUY') {
+                            be = [calls[item].CALL[0] - maxL, puts[item].PUT[0] + maxL]
+                            for (let item in be) {
+                                allProbs.push(getProbs(be[item], daysToExp)[0], getProbs(be[item], daysToExp)[1])
+                            }
+                            setChanceProfit(Math.abs(allProbs[1]+allProbs[2]) + '%')
+                            setStrategy('Straddle')
+
+                        } else if (calls[item].CALL[2]=='SELL' && puts[item].PUT[2]=='SELL') {
+                            be = [calls[item].CALL[0] - maxP, puts[item].PUT[0] + maxP]
+                            for (let item in be) {
+                                allProbs.push(getProbs(be[item], daysToExp)[0], getProbs(be[item], daysToExp)[1])
+                            }
+                            setChanceProfit(100-(Math.abs(allProbs[1]+allProbs[2])) + '%')
+                            setStrategy('Short Straddle')
+                        } break
+                    }
+                }
+
+
+                /* Give probs for Condors/Butterflies */
+                if (resultsData.length === 4) {
+
+                    let strategy = []
+                    let allProbs = []
+
+                    /* Here compiling spread types for analysis later*/
+                    if (calls && calls.length == 2) {
+                        if (
+                            calls[item].CALL[2] == 'BUY' &&
+                            calls[j].CALL[2] == 'SELL' &&
+                            calls[item].CALL[0] < calls[j].CALL[0]) {
+                            strategy.push('Bull Call Spread')
+                        } else if (
+                            calls[item].CALL[2] == 'SELL' &&
+                            calls[j].CALL[2] == 'BUY' &&
+                            calls[item].CALL[0] > calls[j].CALL[0]) {
+                            strategy.push('Bull Call Spread')
+                        } else {
+                            strategy.push('Bear Call Spread')
+                        }
+                    }
+
+                    if (puts && puts.length == 2) {
+                        if (
+                            puts[item].PUT[2] == 'BUY' &&
+                            puts[j].PUT[2] == 'SELL' &&
+                            puts[item].PUT[0] < puts[j].PUT[0]) {
+                            strategy.push('Bull Put Spread')
+                        } else if (
+                            puts[item].PUT[2] == 'SELL' &&
+                            puts[j].PUT[2] == 'BUY' &&
+                            puts[item].PUT[0] > puts[j].PUT[0]) {
+                            strategy.push('Bull Put Spread')
+                        } else {
+                            strategy.push('Bear Put Spread')
+                        }
+                    }
+
+                    /* looking at spread types, identifying butterfly/condor and calculating probs based off their break even point */
+                    if (strategy.includes('Bull Put Spread') && strategy.includes('Bear Call Spread')) {
                         for (let item in breakEven) {
-                                setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
-                                setStrategy('Short Straddle')
-                            }
-                    } else {
-                        for (let item in breakEven){
-                                setChanceProfit(getProbs(breakEven[item], daysToExp)[1] + '%')
-                                setStrategy('Straddle')
-                        } 
-                    } break
-                }  
-                }    
-
-
-                    /* Give probs for Condors/Butterflies */
-                    if (resultsData.length === 4) {
-
-                        let strategy = []
-                        let allProbs = []
-
-                        /* Here compiling spread types for analysis later*/
-                        if (calls && calls.length == 2) {
-                            if (
-                                calls[item].CALL[2] == 'BUY' &&
-                                calls[j].CALL[2] == 'SELL' &&
-                                calls[item].CALL[0] < calls[j].CALL[0]) {
-                                strategy.push('Bull Call Spread')
-                            } else if (
-                                calls[item].CALL[2] == 'SELL' &&
-                                calls[j].CALL[2] == 'BUY' &&
-                                calls[item].CALL[0] > calls[j].CALL[0]) {
-                                strategy.push('Bull Call Spread')
-                            } else {
-                                strategy.push('Bear Call Spread')
-                            }
-                        }
-                        
-                        if (puts && puts.length == 2) {
-                            if (
-                                puts[item].PUT[2] == 'BUY' &&
-                                puts[j].PUT[2] == 'SELL' &&
-                                puts[item].PUT[0] < puts[j].PUT[0]) {
-                                strategy.push('Bull Put Spread')
-                            } else if (
-                                puts[item].PUT[2] == 'SELL' &&
-                                puts[j].PUT[2] == 'BUY' &&
-                                puts[item].PUT[0] > puts[j].PUT[0]) {
-                                strategy.push('Bull Put Spread')
-                            } else {
-                                strategy.push('Bear Put Spread')
-                            }
-                        }
-
-                        /* looking at spread types, identifying butterfly/condor and calculating probs based off their break even point */
-                        if (strategy.includes('Bull Put Spread') && strategy.includes('Bear Call Spread')) {
-                            for (let item in breakEven) {
-                                if (breakEven[item]) {
-                                    allProbs.push(getProbs(breakEven[item], daysToExp)[0], getProbs(breakEven[item], daysToExp)[1])
-                                }
-                            }
-                                if (Math.abs(allProbs.filter((item) => (item))[1] - allProbs.filter((item) => (item))[2])) {
-                                    setChanceProfit(Math.abs(allProbs.filter((item) => (item))[1] - allProbs.filter((item) => (item))[2]) + '%')
-                                } else {setChanceProfit(0+'%')}
-                            setStrategy('Iron Condor / Butterfly')
-                        } else if (strategy.includes('Bear Put Spread') && strategy.includes('Bull Call Spread')) {
-                            for (let item in breakEven) {
-                                if (breakEven[item]) {
-                                    allProbs.push(getProbs(breakEven[item], daysToExp).filter((item) => (item))[0], getProbs(breakEven[item], daysToExp).filter((item) => (item))[1])
-                                } {setChanceProfit(0+'%')}
-                            }
-                            if (Math.abs(allProbs.filter((item) => (item))[1] - allProbs.filter((item) => (item))[2])) {
-                            setChanceProfit(100 - (Math.abs(allProbs.filter((item) => (item))[1] - allProbs.filter((item) => (item))[2])) + '%')
-                            } else 
-                            setStrategy('Inverse Iron Condor / Butterfly')
-                        } else {
                             if (breakEven[item]) {
-                                setChanceProfit('Cannot Calculate')
-                                setStrategy('Unknown')
+                                allProbs.push(getProbs(breakEven[item], daysToExp)[0], getProbs(breakEven[item], daysToExp)[1])
                             }
-                        } break 
-                    }
+                        }
+                        if (Math.abs(allProbs.filter((item) => (item))[1] - allProbs.filter((item) => (item))[2])) {
+                            console.log(Math.abs(allProbs.filter((item) => (item))[2]))
+                            setChanceProfit(100-Math.abs(allProbs.filter((item) => (item))[1] + allProbs.filter((item) => (item))[2]) + '%')
+                        } else { setChanceProfit(0 + '%') }
+                        setStrategy('Iron Condor / Butterfly')
+                    } else if (strategy.includes('Bear Put Spread') && strategy.includes('Bull Call Spread')) {
+                        for (let item in breakEven) {
+                            if (breakEven[item]) {
+                                allProbs.push(getProbs(breakEven[item], daysToExp).filter((item) => (item))[0], getProbs(breakEven[item], daysToExp).filter((item) => (item))[1])
+                            } 
+                        }
+                        if (Math.abs(allProbs.filter((item) => (item))[1] - allProbs.filter((item) => (item))[2])) {
+                            setChanceProfit((Math.abs(allProbs.filter((item) => (item))[1] + allProbs.filter((item) => (item))[2])) + '%')
+                        } else { setChanceProfit(0 + '%') }
+                            setStrategy('Inverse Iron Condor / Butterfly')
+                    } else {
+                        if (breakEven[item]) {
+                            setChanceProfit('Cannot Calculate')
+                            setStrategy('Unknown')
+                        }
+                    } break
                 }
             }
         }
-    
+    }
+
 
     /*Calculate expectancy calc */
     const calculateExpectancy = () => {
@@ -546,7 +551,7 @@ const useGetResults = () => {
         }
     }
 
-        //Normal distribution function to return probability of underlying price
+    //Normal distribution function to return probability of underlying price
     //Ending up above or below the break even price of strategy
     //Takes breakeven and expiration dates as parameters
     const getProbs = (breakeven, expiration) => {
