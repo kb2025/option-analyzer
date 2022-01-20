@@ -8,6 +8,7 @@ import reportWebVitals from './reportWebVitals';
 import { ResultsDataProvider } from './Providers/ResultsDataProvider';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap'
+import "bootstrap-icons/font/bootstrap-icons.css"
 import { ApiInputsProvider } from './Providers/ApiInputsProvider';
 
 ReactDOM.render(
