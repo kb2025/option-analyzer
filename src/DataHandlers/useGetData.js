@@ -3,7 +3,7 @@ import { useApiInputs } from '../Providers/ApiInputsProvider';
 import { useOptionData } from "../Providers/OptionDataProvider";
 import { useSelectedDate } from '../Providers/SelectedDateProvider';
 
-const KEY = process.env.REACT_APP_API_KEY;
+const KEY = 'KOS1RXP2ZUGW0XKIKVNYZBK4ZJAZP5KB' /*process.env.REACT_APP_API_KEY;*/
 
 const useGetData = () => {
 
@@ -32,6 +32,7 @@ const useGetData = () => {
         fetchData()
         setSelectedDate('')
         setSubmit(false)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [submit])
 }
 
