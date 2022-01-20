@@ -1,11 +1,15 @@
+import { useEffect } from "react"
+import useGetResults from "../DataHandlers/useGetResults"
 import { useResultsData } from "../Providers/ResultsDataProvider"
 
 const StrikeSelections = () => {
-    const { resultsData, setResultsData, strategy } = useResultsData()
+    const { resultsData, setResultsData, setStrategy, strategy } = useResultsData()
 
     const handleClick = (id) => {
         setResultsData(resultsData.filter((_, index) => index !== parseInt(id)))
     }
+
+    useGetResults()
 
     if (resultsData.length > 0) {
         return (
