@@ -28,8 +28,8 @@ const StrikeTable = () => {
                 {expDates.map((date, i) => {
                     if (date === selectedDate) {
                         return (
-                            <>
-                                <div key={'1'} className="bg-dark justify-content-center text-white pt-3">
+                            <React.Fragment key={date[i]}>
+                                <div className="bg-dark justify-content-center text-white pt-3">
                                     <div className='row justify-content-center text-center'>
                                     <div className='h5 row justify-content-center text-center'>
                                     {symbol} 
@@ -47,7 +47,7 @@ const StrikeTable = () => {
                                     </div>
                                     </div>
 
-                                <div key={'2'} id="table" className="table-responsive scroll">
+                                <div id="table" className="table-responsive scroll">
                                     <table className="table table-sm table-striped table-hover table-dark">
                                         <thead className='header'>
                                             <tr className='border-dark'>
@@ -68,7 +68,7 @@ const StrikeTable = () => {
                                                 <th className="right-head text-center">+/-</th>
                                             </tr>
                                         </thead>
-                                        <tbody key={'3'}>
+                                        <tbody>
                                             {Object.keys(strikes[i])?.map((strike, key) => {
                                                 return (
                                                     <tr key={key} className='align-middle'>
@@ -173,7 +173,7 @@ const StrikeTable = () => {
                                         </tbody>
                                     </table>
                                 </div>
-                            </>
+                            </React.Fragment>
                         )
                     } else { return null }
                 })}
