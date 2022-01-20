@@ -39,7 +39,7 @@ const ResultsCard = () => {
                                     Chance of Profit
                                 </td>
                                 <td>
-                                {chanceProfit}
+                                {parseFloat(chanceProfit).toFixed(2)}%
                                 </td>
                             </tr>
                             <tr>
