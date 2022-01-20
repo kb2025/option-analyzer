@@ -44,7 +44,7 @@ const StrikeTable = () => {
                                     <div className='row justify-content-center text-center'>
                                         <div className='day-scroll col m-2'> <DateSelectButtons /></div>
                                     </div>
-                                    <div className='row justify-content-center border-top border-bottom text-center pt-1 pb-2 mb-3 collapsible'>
+                                    <div className='row justify-content-center border-top border-bottom text-center pt-2 pb-2 mb-3 collapsible'>
                                     <StrikeSelections />
                                     </div>
                                     </div>
