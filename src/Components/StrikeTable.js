@@ -10,9 +10,9 @@ const StrikeTable = () => {
 
     let { selectedDate } = useSelectedDate()
     const { resultsData, setResultsData } = useResultsData()
-    const { ticker } = useApiInputs()
 
     const {
+        symbol,
         underlyingPrice,
         expDates,
         callStrikes,
@@ -32,7 +32,7 @@ const StrikeTable = () => {
                                 <div key={'1'} className="bg-dark justify-content-center text-white pt-3">
                                     <div className='row justify-content-center text-center'>
                                     <div className='h5 row justify-content-center text-center'>
-                                    {ticker} 
+                                    {symbol} 
                                     </div>
                                     {`Underlying Price: $${parseFloat(underlyingPrice).toFixed(2)}`}
                                     <div className='row justify-content-center text-center'>
@@ -71,7 +71,7 @@ const StrikeTable = () => {
                                         <tbody key={'3'}>
                                             {Object.keys(strikes[i])?.map((strike, key) => {
                                                 return (
-                                                    <tr key={strike[key]} className='align-middle'>
+                                                    <tr key={key} className='align-middle'>
                                                         <td className="text-center">
                                                             <button
                                                                 className='btn btn-success btn-sm m-1 text-center'
@@ -115,13 +115,13 @@ const StrikeTable = () => {
                                                         {(() => {
                                                             if (parseFloat(strike) <= Math.ceil(parseFloat(underlyingPrice)) && parseFloat(strike) >= Math.round(parseFloat(underlyingPrice))) {
                                                                 return (
-                                                                    <td key={key} className="text-center text-warning rounded border">
+                                                                    <td className="text-center text-warning rounded border">
                                                                         ${parseFloat(strike)}
                                                                     </td>
                                                                 )
                                                             } else {
                                                                 return (
-                                                                    <td key={key} className="text-center">
+                                                                    <td className="text-center">
                                                                         ${parseFloat(strike)}
                                                                     </td>
                                                                 )
