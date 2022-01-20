@@ -31,9 +31,12 @@ const StrikeTable = () => {
                             <>
                                 <div key={'1'} className="bg-dark justify-content-center text-white pt-3">
                                     <div className='row justify-content-center text-center'>
+                                    <div className='h5 row justify-content-center text-center'>
+                                    {ticker} 
+                                    </div>
                                     {`Underlying Price: $${parseFloat(underlyingPrice).toFixed(2)}`}
                                     <div className='row justify-content-center text-center'>
-                                    {ticker} {date.replace(":", ` | Days Until Expiration: `)}
+                                    {date.replace(":", ` | `)} Days Until Expiration
                                     </div>
                                     </div>
                                     <div className='row justify-content-center text-center'>
