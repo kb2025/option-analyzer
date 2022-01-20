@@ -31,10 +31,12 @@ const StrikeTable = () => {
                             <React.Fragment key={date[i]}>
                                 <div className="bg-dark justify-content-center text-white pt-3">
                                     <div className='row justify-content-center text-center'>
-                                    <div className='h5 row justify-content-center text-center'>
-                                    {symbol} 
+                                    <div className='h5'>
+                                    {symbol}
                                     </div>
-                                    {`Underlying Price: $${parseFloat(underlyingPrice).toFixed(2)}`}
+                                    <div className='text-warning h6'>
+                                    {`$${parseFloat(underlyingPrice).toFixed(2)}`}
+                                    </div>
                                     <div className='row justify-content-center text-center'>
                                     {date.replace(":", ` | `)} Days Until Expiration
                                     </div>
@@ -115,7 +117,7 @@ const StrikeTable = () => {
                                                         {(() => {
                                                             if (parseFloat(strike) <= Math.ceil(parseFloat(underlyingPrice)) && parseFloat(strike) >= Math.round(parseFloat(underlyingPrice))) {
                                                                 return (
-                                                                    <td className="text-center text-warning rounded border">
+                                                                    <td className="text-center text-warning border border-warning border-top-0 border-bottom-0">
                                                                         ${parseFloat(strike)}
                                                                     </td>
                                                                 )
