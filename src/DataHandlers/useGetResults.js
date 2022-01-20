@@ -36,6 +36,7 @@ const useGetResults = () => {
     let sumLegs = []
     let breakEven = []
 
+    {/* eslint eqeqeq: 0 */}
     const calculateResults = () => {
 
         /* Make sure there is data to calculate */
@@ -272,8 +273,8 @@ const useGetResults = () => {
     const calculateProbability = () => {
         if (resultsData.length > 0) {
 
-            let calls = resultsData.filter((item) => { if (Object.keys(item) == 'CALL') { return item } })
-            let puts = resultsData.filter((item) => { if (Object.keys(item) == 'PUT') { return item } })
+            let calls = resultsData.filter((item) => { if (Object.keys(item) == 'CALL') { return item } else {return null} })
+            let puts = resultsData.filter((item) => { if (Object.keys(item) == 'PUT') { return item } else {return null} })
 
             /* Give probs for strategy selection */
             for (let item in resultsData) {
@@ -401,6 +402,7 @@ const useGetResults = () => {
                     maxL = (Number(maxLoss.replace(/[^0-9.-]+/g, "")) / 100)
                     }
 
+                    /*GUTS*/
                     if (calls[item].CALL[0] !== puts[item].PUT[0] && calls[item].CALL[0] < puts[item].PUT[0] ) {
    
                         if (calls[item].CALL[2]=='BUY' && puts[item].PUT[2]=='BUY') {
@@ -421,6 +423,7 @@ const useGetResults = () => {
                         } break
                     }
 
+                    /* Strangles */
                     if (calls[item].CALL[0] !== puts[item].PUT[0] && calls[item].CALL[0] > puts[item].PUT[0]) {
    
                         if (calls[item].CALL[2]=='BUY' && puts[item].PUT[2]=='BUY') {
@@ -441,13 +444,15 @@ const useGetResults = () => {
                         } break
                     }
 
-                    if (calls[item].CALL[0] == puts[item].PUT[0] && calls[item].CALL[0] < puts[item].PUT[0] ) {
+                    /*STRADDLES*/
+                    if (calls[item].CALL[0] == puts[item].PUT[0]) {
    
                         if (calls[item].CALL[2]=='BUY' && puts[item].PUT[2]=='BUY') {
                             be = [calls[item].CALL[0] - maxL, puts[item].PUT[0] + maxL]
                             for (let item in be) {
                                 allProbs.push(getProbs(be[item], daysToExp)[0], getProbs(be[item], daysToExp)[1])
                             }
+                            console.log(allProbs)
                             setChanceProfit(Math.abs(allProbs[1]+allProbs[2]) + '%')
                             setStrategy('Straddle')
 
@@ -456,12 +461,11 @@ const useGetResults = () => {
                             for (let item in be) {
                                 allProbs.push(getProbs(be[item], daysToExp)[0], getProbs(be[item], daysToExp)[1])
                             }
-                            setChanceProfit(100-(Math.abs(allProbs[1]+allProbs[2])) + '%')
+                            setChanceProfit(100-Math.abs(allProbs[1]+allProbs[2]) + '%')
                             setStrategy('Short Straddle')
                         } break
                     }
                 }
-
 
                 /* Give probs for Condors/Butterflies */
                 if (resultsData.length === 4) {
@@ -525,10 +529,8 @@ const useGetResults = () => {
                         } else { setChanceProfit(0 + '%') }
                             setStrategy('Inverse Iron Condor / Butterfly')
                     } else {
-                        if (breakEven[item]) {
                             setChanceProfit('Cannot Calculate')
                             setStrategy('Unknown')
-                        }
                     } break
                 }
             }
@@ -536,7 +538,10 @@ const useGetResults = () => {
     }
 
 
-    /*Calculate expectancy calc */
+    /*Calculate expectancy calc
+    Necessary Rate of Return = ((.01 + Loss Probability)/Win Probability)
+    Minimum Percent Profit to Capture = (Necessary Rate of Return * Max Loss)/Max Profit    
+    */
     const calculateExpectancy = () => {
         if (resultsData.length > 0) {
             if (maxLoss && chanceProfit) {
