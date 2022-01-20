@@ -1,3 +1,5 @@
+/* * {border:.5px solid red} */
+
 html{
   overflow: hidden;
   margin: 0;
@@ -9,8 +11,6 @@ html{
   -moz-osx-font-smoothing: grayscale;
   background-color: #343a40;
 }
-
-* {border:1px solid red}
 
 body {
   overflow: hidden;
