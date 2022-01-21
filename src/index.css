@@ -45,6 +45,10 @@ code {
   overflow-y: auto;
 }
 
+.head {
+  background-color: rgb(56, 56, 56);
+}
+
 .left-head, td:first-child
 {
   position:sticky;
@@ -65,14 +69,15 @@ input[type=radio] {
   opacity: 0;
 }
 
-.collapsible:empty { 
+.collapsible:empty {
   display: none; 
 } 
 
 .put-call-bg {
   background: linear-gradient(to right, #dc3545 50%, #198754 50%);
-}
+}​
 
+.btn,
 .btn-sm,
 .btn-success:focus,
 .btn-success:active,
@@ -80,5 +85,5 @@ input[type=radio] {
 .btn-danger:active{
     box-shadow:none !important;
     outline:0px !important;
-    min-width: 3rem
+    min-width: 3rem !important;
 }

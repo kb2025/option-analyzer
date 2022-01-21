@@ -14,7 +14,7 @@ const StrikeSelections = () => {
     if (resultsData.length > 0) {
         return (
             <>
-                <div className="row justify-content border-bottom text-center pb-1 mb-2">
+                <div className="row justify-content  text-center pb-1 mb-2">
                 <div className='col h5'>
                 STRIKE&nbsp; 
                 <i className="h5 bi bi-piggy-bank-fill"/>

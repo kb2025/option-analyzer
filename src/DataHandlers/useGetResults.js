@@ -13,7 +13,9 @@ const useGetResults = () => {
         setStrategy,
         chanceProfit,
         setChanceProfit,
-        setExpectancy
+        expectancy,
+        setExpectancy,
+        setNeededPremium
     } = useResultsData()
 
     const { optionData } = useOptionData()
@@ -199,13 +201,13 @@ const useGetResults = () => {
             if (Math.round(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 1]*1e2)/1e2 > Math.round(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 2]*1e2)/1e2)  {
                 setMaxProfit('INFINITE')
             } else {
-                setMaxProfit('$' + Math.abs(Math.max(...sumLegs)).toFixed(2))
+                setMaxProfit(Math.abs(Math.max(...sumLegs)))
             }
 
             if (Math.round(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 1]*1e2)/1e2 < Math.round(sumLegsPlusHighestStrike[sumLegsPlusHighestStrike.length - 2]*1e2)/1e2)  {
                 setMaxLoss('INFINITE')
             } else {
-                setMaxLoss('$' + Math.abs(Math.min(...sumLegs)).toFixed(2))
+                setMaxLoss(Math.abs(Math.min(...sumLegs)))
             }
         }
     }
@@ -320,7 +322,7 @@ const useGetResults = () => {
                 }
 
                 /* Give probs for Bull/Bear Call/Put spreads */
-                if (resultsData.length !== 4 && (calls.length === 2 || puts.length === 2)) {
+                if (resultsData.length !== 4 && resultsData.length !==3 && (calls.length === 2 || puts.length === 2)) {
 
                     if (Object.keys(resultsData[item]) == 'CALL') {
                         if (
@@ -369,7 +371,6 @@ const useGetResults = () => {
                             resultsData[item].PUT[0] > resultsData[j].PUT[0]) {
                             for (let item in breakEven) {
                                 if (breakEven[item]) {
-                                    console.log(breakEven[item])
                                     setChanceProfit(getProbs(breakEven[item], daysToExp)[0] + '%')
                                     setStrategy('Bull Put Spread')
                                 }
@@ -395,11 +396,11 @@ const useGetResults = () => {
                     let maxL
 
                     if (maxProfit) {
-                    maxP = (Number(maxProfit.replace(/[^0-9.-]+/g, "")) / 100)
+                    maxP = (Number(maxProfit) / 100)
                     }
 
                     if (maxLoss) {
-                    maxL = (Number(maxLoss.replace(/[^0-9.-]+/g, "")) / 100)
+                    maxL = (Number(maxLoss) / 100)
                     }
 
                     /*GUTS*/
@@ -514,7 +515,6 @@ const useGetResults = () => {
                             }
                         }
                         if (Math.abs(allProbs.filter((item) => (item))[1] - allProbs.filter((item) => (item))[2])) {
-                            console.log(Math.abs(allProbs.filter((item) => (item))[2]))
                             setChanceProfit(100-Math.abs(allProbs.filter((item) => (item))[1] + allProbs.filter((item) => (item))[2]) + '%')
                         } else { setChanceProfit(0 + '%') }
                         setStrategy('Iron Condor / Butterfly')
@@ -545,12 +545,26 @@ const useGetResults = () => {
     const calculateExpectancy = () => {
         if (resultsData.length > 0) {
             if (maxLoss && chanceProfit) {
-                if ((.01 + (1 - parseFloat(chanceProfit) / 100)) / (parseFloat(chanceProfit) / 100) * parseFloat(maxLoss.replace(/[$,]+/g, "")) < maxProfit.replace(/[$,]+/g, "")) {
+                if ((.01 + (1 - parseFloat(chanceProfit) / 100)) / (parseFloat(chanceProfit) / 100) * (maxLoss) < maxProfit) {
                     setExpectancy('Positive')
-                } else if ((.01 + (1 - parseFloat(chanceProfit) / 100)) / (parseFloat(chanceProfit) / 100) * parseFloat(maxLoss.replace(/[$,]+/g, "")) >= maxProfit.replace(/[$,]+/g, "")) {
+                } else if ((.01 + (1 - parseFloat(chanceProfit) / 100)) / (parseFloat(chanceProfit) / 100) * (maxLoss) >= maxProfit) {
                     setExpectancy('Negative')
                 } else {
                     setExpectancy('Unknown')
+                }
+            }
+        }
+    }
+
+    const calculateNeededPremium = () => {
+        if (resultsData.length > 0) {
+            if (maxLoss && chanceProfit) {
+                if ((.01 + (1 - parseFloat(chanceProfit) / 100)) / (parseFloat(chanceProfit) / 100) * maxLoss < maxProfit && expectancy !== 'Unknown') {
+                    setNeededPremium((.01 + (1 - parseFloat(chanceProfit) / 100)) / (parseFloat(chanceProfit) / 100) * maxLoss)
+                } else if ((.01 + (1 - parseFloat(chanceProfit) / 100)) / (parseFloat(chanceProfit) / 100) * parseFloat(maxLoss) >= maxProfit && expectancy !== 'Unknown') {
+                    setNeededPremium((.01 + (1 - parseFloat(chanceProfit) / 100)) / (parseFloat(chanceProfit) / 100) * maxLoss)
+                } else {
+                    setNeededPremium('Unknown')
                 }
             }
         }
@@ -599,6 +613,7 @@ const useGetResults = () => {
         calculateBreakEvens()
         calculateProbability()
         calculateExpectancy()
+        calculateNeededPremium()
     })
 }
 

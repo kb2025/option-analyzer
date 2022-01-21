@@ -10,6 +10,7 @@ const ResultsDataProvider = ({ children }) => {
     const [strategy, setStrategy] = useState()
     const [chanceProfit, setChanceProfit] = useState()
     const [expectancy, setExpectancy] = useState()
+    const [neededPremium, setNeededPremium] = useState()
 
     return (
         <ResultsDataContext.Provider value={{
@@ -24,7 +25,9 @@ const ResultsDataProvider = ({ children }) => {
             chanceProfit: chanceProfit,
             setChanceProfit: setChanceProfit,
             expectancy: expectancy,
-            setExpectancy: setExpectancy
+            setExpectancy: setExpectancy,
+            neededPremium: neededPremium,
+            setNeededPremium: setNeededPremium
         }}>{children}</ResultsDataContext.Provider>
     )
 }

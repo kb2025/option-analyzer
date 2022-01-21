@@ -11,7 +11,7 @@ const Navigation = () => {
   useGetData()
 
   return (
-    <Navbar className='text-white' bg="dark" expand={false}>
+    <Navbar className='text-white shadow' bg='dark' expand={false}>
       <Container fluid>
       <Navbar.Brand href="#home">
       <div className="container">
@@ -25,7 +25,7 @@ const Navigation = () => {
           </div>
           </div>
         </Navbar.Brand>
-        <Navbar.Toggle className='bg-dark border-white text-white'>TICKER SELECTION & RESULTS</Navbar.Toggle>
+        <Navbar.Toggle className='bg-dark border-white text-white'><i className="h3 bi bi-search"></i></Navbar.Toggle>
         <Navbar.Offcanvas
           className='bg-dark text-white'
           id="offcanvasNavbar"

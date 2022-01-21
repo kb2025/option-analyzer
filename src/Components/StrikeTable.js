@@ -29,7 +29,7 @@ const StrikeTable = () => {
                     if (date === selectedDate) {
                         return (
                             <React.Fragment key={date[i]}>
-                                <div className="bg-dark justify-content-center text-white pt-3">
+                                <div className="head justify-content-center text-white pt-2">
                                     <div className='row justify-content-center text-center'>
                                     <div className='h5'>
                                     {symbol}
@@ -44,13 +44,13 @@ const StrikeTable = () => {
                                     <div className='row justify-content-center text-center'>
                                         <div className='day-scroll col m-2'> <DateSelectButtons /></div>
                                     </div>
-                                    <div className='row justify-content-center border-top border-bottom text-center pt-2 pb-2 mb-3 collapsible'>
+                                    <div className='row justify-content-center bg-dark border-top border-bottom text-center pt-2 pb-2 mb-3 collapsible'>
                                     <StrikeSelections />
                                     </div>
                                     </div>
 
                                 <div id="table" className="table-responsive scroll">
-                                    <table className="table table-sm table-striped table-hover table-dark">
+                                    <table className="table table-sm table-striped table-dark">
                                         <thead className='header'>
                                             <tr className='border-dark'>
                                                 <th colSpan="4" className="text-center bg-danger align-middle p-0">PUT</th>
@@ -117,7 +117,7 @@ const StrikeTable = () => {
                                                         {(() => {
                                                             if (parseFloat(strike) <= Math.ceil(parseFloat(underlyingPrice)) && parseFloat(strike) >= Math.round(parseFloat(underlyingPrice))) {
                                                                 return (
-                                                                    <td className="text-center text-warning border border-warning border-top-0 border-bottom-0">
+                                                                    <td className="strike-match text-center text-warning border border-warning border-top-0 border-bottom-0">
                                                                         ${parseFloat(strike)}
                                                                     </td>
                                                                 )
