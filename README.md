@@ -2,8 +2,7 @@
 
 # Option Analyzer
 
-Utilizes the TD Ameritrade API to retrieve option chains for any stock ticker
-and allows for analysis of user chosen option strategies. 
+Utilizes the TD Ameritrade API to retrieve option chains for any stock/ETF and allows for analysis of option strategies including single long and short call/puts, spreads, condors/butterflies, straddles, strangles, guts, etc.
 
 ## [Hosted Example](https://nickforneris.github.io/option-analyzer/)
 
