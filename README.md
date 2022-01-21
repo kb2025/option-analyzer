@@ -1,4 +1,4 @@
-<img src="https://repository-images.githubusercontent.com/450395294/a618baca-8460-4866-ad49-c0231ee350e4" width="200" />
+<img src="https://repository-images.githubusercontent.com/450395294/a618baca-8460-4866-ad49-c0231ee350e4" width="100%" />
 
 # Option Analyzer
 
