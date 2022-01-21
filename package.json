@@ -1,8 +1,8 @@
 {
-  "name": "options-analyzer",
+  "name": "option-analyzer",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://nickforneris.github.io/options-analyzer/",
+  "homepage": "https://nickforneris.github.io/option-analyzer/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
