@@ -1,6 +1,6 @@
 ![Options Analyzer Logo: Arrow in Bullseye](https://github.com/NickForneris/options-analyzer/blob/main/public/OptionsAnalyzerSM.png)
 
-# Options Analyzer
+# Option Analyzer
 
 Utilizes the TD Ameritrade API to retrieve option chains for any stock ticker
 and allows for analysis of user chosen option strategies. 
