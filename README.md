@@ -1,4 +1,4 @@
-![Options Analyzer Logo: Arrow in Bullseye](https://github.com/NickForneris/option-analyzer/blob/main/public/OptionsAnalyzerSM.png)
+![Options Analyzer Logo: Arrow in Bullseye]('https://repository-images.githubusercontent.com/450395294/a618baca-8460-4866-ad49-c0231ee350e4')
 
 # Option Analyzer
 
