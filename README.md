@@ -15,7 +15,7 @@ Utilizes the TD Ameritrade API to retrieve option chains for any stock/ETF and a
 6. Once Strategy is Chosen, Click/Touch Ticker and Results Button to View Analysis
 
 ## Key Formulas
-### Black-Scholes Based Probability Calculation on Break Evens
+### Black-Scholes Based Probability Calculation
 
       const getProbs = (breakeven, expiration) => {
             let p = parseFloat(underlyingPrice);
@@ -50,6 +50,11 @@ Utilizes the TD Ameritrade API to retrieve option chains for any stock/ETF and a
         //return probabilities for underlying price ending up above or below breakeven
         return [pbelow, pabove];
     }
+    
+### Expectancy Calculations
+        Expectancy         = (Probability of Win * Average Win) - (Probability of Loss * Average Loss)
+        Necessary Profit   = (.01 + Probability of Loss) / Probability of Win
+        Early Profit Level = (Necessary Profit / Max Profit) * 100
 
 
 
