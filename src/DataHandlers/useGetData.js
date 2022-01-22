@@ -10,6 +10,7 @@ const useGetData = () => {
     const { setOptionData } = useOptionData()
     const { setSelectedDate } = useSelectedDate()
     const {ticker, expMonth, submit, setSubmit } = useApiInputs()
+  
 
     /* API call using ticker and expMonth */
     const year = new Date().getFullYear()
@@ -24,7 +25,10 @@ const useGetData = () => {
             .then((response) => response.json())
             .then((data) => {
                 /*console.log('FETCHED OPTION DATA: ', data)*/
-                setOptionData(data)
+                if (data.status=='FAILED') {
+                    setOptionData('FAILED')
+                } else {
+                setOptionData(data) }
             })
     }
 

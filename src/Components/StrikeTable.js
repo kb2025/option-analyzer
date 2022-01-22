@@ -2,9 +2,9 @@ import React from 'react'
 import useTransformData from '../DataHandlers/useTransformData'
 import { useSelectedDate } from '../Providers/SelectedDateProvider'
 import { useResultsData } from '../Providers/ResultsDataProvider'
-import { useApiInputs } from '../Providers/ApiInputsProvider'
 import StrikeSelections from './StrikeSelections'
 import DateSelectButtons from './DateSelectButtons'
+import { useOptionData } from '../Providers/OptionDataProvider'
 
 const StrikeTable = () => {
 
@@ -19,9 +19,11 @@ const StrikeTable = () => {
         putStrikes
     } = useTransformData()
 
+    const {optionData} = useOptionData()
+
     const strikes = putStrikes
 
-    if (expDates) {
+    if (expDates?.length) {
         selectedDate = (selectedDate) ? selectedDate : expDates[expDates.length - 1]
         return (
             <div className='bg-dark'>
@@ -31,23 +33,23 @@ const StrikeTable = () => {
                             <React.Fragment key={date[i]}>
                                 <div className="head justify-content-center text-white pt-2">
                                     <div className='row justify-content-center text-center'>
-                                    <div className='h5'>
-                                    {symbol}
-                                    </div>
-                                    <div className='text-warning h6'>
-                                    {`$${parseFloat(underlyingPrice).toFixed(2)}`}
-                                    </div>
-                                    <div className='row justify-content-center text-center'>
-                                    {date.replace(":", ` | `)} Days Until Expiration
-                                    </div>
+                                        <div className='h5'>
+                                            {symbol}
+                                        </div>
+                                        <div className='text-warning h6'>
+                                            {`$${parseFloat(underlyingPrice).toFixed(2)}`}
+                                        </div>
+                                        <div className='row justify-content-center text-center'>
+                                            {date.replace(":", ` | `)} Days Until Expiration
+                                        </div>
                                     </div>
                                     <div className='row justify-content-center text-center'>
                                         <div className='day-scroll col m-2'> <DateSelectButtons /></div>
                                     </div>
                                     <div className='row justify-content-center bg-dark border-top border-bottom text-center pt-2 pb-2 mb-3 collapsible'>
-                                    <StrikeSelections />
+                                        <StrikeSelections />
                                     </div>
-                                    </div>
+                                </div>
 
                                 <div id="table" className="table-responsive scroll">
                                     <table className="table table-sm table-striped table-dark">
@@ -181,7 +183,18 @@ const StrikeTable = () => {
                 })}
             </div>
         )
-    } else { return null }
+    } else {
+        if(optionData == 'FAILED') {
+        return (
+            <div className='justify-content-center align-items-center bg-dark text-white'>
+                    <div className="col text-center">
+                        <h3 className='pt-3'>Sorry!</h3>
+                        <p>We didn't find an option chain for {symbol} in selected month.</p>
+                    </div>
+            </div>
+        )
+        } else {return null}
+    }
 }
 
 export default StrikeTable

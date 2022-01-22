@@ -10,6 +10,9 @@ const ApiInputs = () => {
 
     const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
 
+    
+    const {setShow} = useResultsData();
+
     return (
         <>
         <Row className="justify-content-md-center">
@@ -51,6 +54,7 @@ const ApiInputs = () => {
                 variant='outline-light' 
                 onClick={()=>{
                     setSubmit(true); 
+                    setShow(false)
                     setResultsData([]); 
                     setMaxProfit(); 
                     setMaxLoss(); 

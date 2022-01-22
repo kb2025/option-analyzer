@@ -73,6 +73,7 @@ const ResultsCard = () => {
                         </tbody>
                     </table>
                 </div>
+                <small><strong>Disclaimer:</strong> This is a practice project made for a web development portfolio and does not provide invesment advice in any way. Invest at your own risk. The creator of this site does not take any responsibility for your trading losses in any way.</small>
             </div>
         )
     } else {
@@ -140,6 +141,7 @@ const ResultsCard = () => {
                     </tbody>
                 </table>
             </div>
+            <small><strong>Disclaimer:</strong> This is a practice project made for a web development portfolio and does not provide invesment advice in any way. Invest at your own risk. The creator of this site does not take any responsibility for your trading losses in any way.</small>
         </div>
         )
     }
